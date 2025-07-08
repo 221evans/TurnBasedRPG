@@ -4,12 +4,28 @@
 
 #include "Player.h"
 
-Player::Player() : destRect(), srcRect(), health(100), isRunning(false), isDead(false), isFacingLeft(false),
-                   isIdle(false),speed(0),positionX(250), positionY(250) {}
+#include <iostream>
+#include <__ostream/basic_ostream.h>
+
+Player::Player() : playerTexture(nullptr), health(100), isRunning(false), isDead(false),
+                   isFacingLeft(false),isIdle(false), speed(0), positionX(250), positionY(250)
+{
+    destRect = {positionX, positionY, 64, 64};
+    srcRect = {0, 0, 64, 64};
+}
 
 void Player::Init(SDL_Renderer* renderer)
 {
+    playerTexture = IMG_LoadTexture(renderer, "Assets/Idle-Side-Sheet.png");
+    if (playerTexture == nullptr)
+    {
+        std::cout << "Player Texture could not be loaded!" << SDL_GetError() << std::endl;
+    }
+}
 
+void Player::Update(SDL_Renderer* renderer, float deltaTime)
+{
+    SDL_RenderTexture(renderer, playerTexture, &srcRect, &destRect);
 }
 
 Player::~Player()
