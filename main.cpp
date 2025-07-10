@@ -10,7 +10,10 @@ int main()
 
     constexpr int windowWidth = 800;
     constexpr int windowHeight = 600;
+
     Player player;
+
+    Uint32 previousTime = SDL_GetTicks();
     SDL_Window* window = SDL_CreateWindow("SDL3",windowWidth,windowHeight,0);
 
     if (window == nullptr)
@@ -31,6 +34,7 @@ int main()
     bool running = true;
     SDL_Event event;
     player.Init(renderer); // Call load function
+
     while (running)
     {
 
@@ -40,13 +44,22 @@ int main()
             {
                 running = false;
             }
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_RenderClear(renderer);
-            // Draw logic goes here
-            player.Update(renderer, 0.016f);
-            // Update screen
-            SDL_RenderPresent(renderer);
         }
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+
+        // DeltaTime calculation
+        Uint32 currentTime = SDL_GetTicks();
+        float deltaTime = static_cast<float>(currentTime - previousTime) / 1000.0f;
+        previousTime = currentTime;
+
+        // Draw logic goes here
+        player.Render(renderer);
+        // Update screen
+        player.Update(renderer, deltaTime);
+        std::cout << "DeltaTime" << deltaTime << std::endl;
+        SDL_RenderPresent(renderer);
     }
     SDL_DestroyWindow(window);
     SDL_Quit();

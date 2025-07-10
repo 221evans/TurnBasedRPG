@@ -10,6 +10,7 @@
 class Player {
 
     public:
+
     Player();
     SDL_FRect destRect;
     SDL_FRect srcRect;
@@ -23,10 +24,19 @@ class Player {
     float positionX;
     float positionY;
 
-    void Init(SDL_Renderer* renderer);
-    void Update(SDL_Renderer* renderer, float deltaTime);
 
+    void Init(SDL_Renderer* renderer);
+    void Render(SDL_Renderer* renderer);
+    void MovePLayer(SDL_Renderer* renderer, float deltaTime);
+    void Update(SDL_Renderer* renderer, float deltaTime);
     ~Player();
+
+private:
+    enum class CombatActions {
+        Attack = 1,
+        Defend,
+        Run,
+    };
 
 
 
