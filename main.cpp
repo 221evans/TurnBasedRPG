@@ -14,7 +14,7 @@ int main()
     Player player;
 
     Uint32 previousTime = SDL_GetTicks();
-    SDL_Window* window = SDL_CreateWindow("SDL3",windowWidth,windowHeight,0);
+    SDL_Window* window = SDL_CreateWindow("Horde Survivor",windowWidth,windowHeight,0);
 
     if (window == nullptr)
     {
@@ -58,8 +58,9 @@ int main()
         player.Render(renderer);
         // Update screen
         player.Update(renderer, deltaTime);
-        std::cout << "DeltaTime" << deltaTime << std::endl;
+
         SDL_RenderPresent(renderer);
+
     }
     SDL_DestroyWindow(window);
     SDL_Quit();

@@ -12,17 +12,32 @@ class Player {
     public:
 
     Player();
+
+    // Player Texture handling
     SDL_FRect destRect;
     SDL_FRect srcRect;
-    SDL_Texture* playerTexture;
+    SDL_Texture* playerIdleSideTexture;
+    SDL_Texture* playerRunSideTexture;
+    SDL_Texture* playerCurrentTexture;
+    SDL_Texture* playerUpRunTexture;
+    SDL_Texture* playerDownRunTexture;
+
     int health;
     bool isRunning;
     bool isDead;
     bool isFacingLeft;
-    bool isIdle;
+    bool isFacingUp;
+    bool isFacingDown;
     float speed;
     float positionX;
     float positionY;
+    // Animations
+    int currentFrame;
+    int frameSpeed;
+    int frameCount;
+    int totalFrames;
+    float frameTimer;
+
 
 
     void Init(SDL_Renderer* renderer);
