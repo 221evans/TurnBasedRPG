@@ -7,10 +7,11 @@
 #include <iostream>
 
 
-Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), health(100), isRunning(false),
-                   isDead(false),isFacingLeft(false), isFacingUp(false), speed(100), positionX(250), positionY(250),
-                   playerCurrentTexture(nullptr),playerUpRunTexture(nullptr),currentFrame(0), frameCount(0),
-                   frameSpeed(8), totalFrames(4), frameTimer(0.0f), isFacingDown(false)
+Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), playerCurrentTexture(nullptr), playerUpRunTexture(nullptr),
+                   playerDownRunTexture(nullptr),flip(SDL_FLIP_NONE), health(100), isRunning(false), isDead(false), isFacingLeft(false),
+                   isFacingUp(false),isFacingDown(false),speed(100), positionX(250),
+                   positionY(250), currentFrame(0), frameSpeed(8), frameCount(0), totalFrames(4),
+                   frameTimer(0.0f)
 {
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
@@ -20,10 +21,10 @@ Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr)
 
 void Player::Init(SDL_Renderer* renderer)
 {
-    playerIdleSideTexture = IMG_LoadTexture(renderer, "Assets/Idle-Side-Sheet.png");
-    playerRunSideTexture = IMG_LoadTexture(renderer, "Assets/Run-Side-Sheet.png");
-    playerUpRunTexture = IMG_LoadTexture(renderer, "Assets/Run-Up-Sheet.png");
-    playerDownRunTexture = IMG_LoadTexture(renderer, "Assets/Run-Down-Sheet.png");
+    playerIdleSideTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Idle-Side-Sheet.png");
+    playerRunSideTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Side-Sheet.png");
+    playerUpRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Up-Sheet.png");
+    playerDownRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Down-Sheet.png");
 
     playerCurrentTexture = playerIdleSideTexture;
     if (playerRunSideTexture == nullptr)
@@ -46,10 +47,18 @@ void Player::Init(SDL_Renderer* renderer)
 
 void Player::Render(SDL_Renderer* renderer)
 {
+
+    flip = SDL_FLIP_NONE;
+
     if (isRunning)
     {
         playerCurrentTexture = playerRunSideTexture;
+        if (isFacingLeft)
+        {
+            flip = SDL_FLIP_HORIZONTAL;
+        }
     }
+
     else if (isFacingUp)
     {
         playerCurrentTexture = playerUpRunTexture;
@@ -63,22 +72,17 @@ void Player::Render(SDL_Renderer* renderer)
         playerCurrentTexture = playerIdleSideTexture;
     }
 
-    SDL_RenderTexture(renderer, playerCurrentTexture, &srcRect, &destRect);
-
+    SDL_RenderTextureRotated(renderer,playerCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
 
-void Player::MovePLayer(SDL_Renderer* renderer, float deltaTime)
+void Player::MovePlayer(float deltaTime)
 {
     const bool* keyboardState = SDL_GetKeyboardState(nullptr);
     isRunning = false;
     isFacingUp = false;
     isFacingDown = false;
-
-    if (isFacingLeft)
-    {
-        srcRect.w = -srcRect.w;
-    }
+    isFacingLeft = false;
 
     if (keyboardState[SDL_SCANCODE_W])
     {
@@ -94,6 +98,7 @@ void Player::MovePLayer(SDL_Renderer* renderer, float deltaTime)
     {
         destRect.x -= speed * deltaTime;
         isRunning = true;
+        isFacingLeft = true;
 
     }
     if (keyboardState[SDL_SCANCODE_D])
@@ -105,7 +110,7 @@ void Player::MovePLayer(SDL_Renderer* renderer, float deltaTime)
 
 void Player::Update(SDL_Renderer* renderer, float deltaTime)
 {
-    MovePLayer(renderer, deltaTime);
+    MovePlayer(deltaTime);
 }
 
 Player::~Player()

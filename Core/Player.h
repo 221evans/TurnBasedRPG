@@ -14,13 +14,14 @@ class Player {
     Player();
 
     // Player Texture handling
-    SDL_FRect destRect;
-    SDL_FRect srcRect;
+    SDL_FRect destRect{};
+    SDL_FRect srcRect{};
     SDL_Texture* playerIdleSideTexture;
     SDL_Texture* playerRunSideTexture;
     SDL_Texture* playerCurrentTexture;
     SDL_Texture* playerUpRunTexture;
     SDL_Texture* playerDownRunTexture;
+    SDL_FlipMode flip;
 
     int health;
     bool isRunning;
@@ -42,7 +43,7 @@ class Player {
 
     void Init(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
-    void MovePLayer(SDL_Renderer* renderer, float deltaTime);
+    void MovePlayer(float deltaTime);
     void Update(SDL_Renderer* renderer, float deltaTime);
     ~Player();
 
