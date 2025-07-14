@@ -20,6 +20,7 @@ public:
     float positionY;
 
     void Init(SDL_Renderer* renderer);
+    bool PreLoadAssets(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
     void MoveBoar(float deltaTime);
     void Update(SDL_Renderer* renderer, float deltaTime);

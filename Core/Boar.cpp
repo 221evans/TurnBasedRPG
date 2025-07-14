@@ -16,17 +16,25 @@ Boar::Boar(): isWalking(false), health(100), damage(10), speed(100.0f), position
 
 void Boar::Init(SDL_Renderer* renderer)
 {
+ PreLoadAssets(renderer);
+}
+
+bool Boar::PreLoadAssets(SDL_Renderer* renderer)
+{
     boarIdleTexture = IMG_LoadTexture(renderer, "Assets/Enemy/Boar/Idle-Sheet.png");
     boarWalkTexture = IMG_LoadTexture(renderer,"Assets/Enemy/Boar/Walk-Sheet.png");
 
     if (boarIdleTexture == nullptr)
     {
         std::cout << "Boar Idle Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
     }
     if (boarWalkTexture == nullptr)
     {
         std::cout << "Boar Walk Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
     }
+    return true;
 }
 
 void Boar::Render(SDL_Renderer* renderer)
