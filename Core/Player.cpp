@@ -6,16 +6,15 @@
 #include <iostream>
 
 
-Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), playerCurrentTexture(nullptr), playerUpRunTexture(nullptr),
-                   playerDownRunTexture(nullptr),flip(SDL_FLIP_NONE), health(100), isRunning(false), isDead(false), isFacingLeft(false),
-                   isFacingUp(false),isFacingDown(false),speed(100), positionX(250),
-                   positionY(250), currentFrame(0), frameSpeed(8), frameCount(0), totalFrames(4),
-                   frameTimer(0.0f)
+Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), playerCurrentTexture(nullptr),
+                   playerUpRunTexture(nullptr),playerDownRunTexture(nullptr), playerIdleDownTexture(nullptr),
+                   playerIdleUpTexture(nullptr),flip(SDL_FLIP_NONE), health(100),isRunning(false), isDead(false),
+                   isFacingLeft(false),isFacingUp(false), isFacingDown(false), speed(100), positionX(250),
+                   positionY(250), currentFrame(0), frameSpeed(8), frameCount(0), totalFrames(4),frameTimer(0.0f)
 {
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
 }
-
 
 
 void Player::Init(SDL_Renderer* renderer)
@@ -97,7 +96,8 @@ bool Player::PreLoadAssets(SDL_Renderer* renderer)
     playerRunSideTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Side-Sheet.png");
     playerUpRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Up-Sheet.png");
     playerDownRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Down-Sheet.png");
-
+    playerIdleDownTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Idle-Down-Sheet.png");
+    playerIdleUpTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Idle-Up-Sheet.png");
     if (!playerIdleSideTexture)
     {
         std::cout << "Player Idle Side Texture could not be loaded! " << SDL_GetError() << std::endl;
@@ -117,6 +117,15 @@ bool Player::PreLoadAssets(SDL_Renderer* renderer)
     {
         std::cout << "Player Run Down Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
+    }
+    if (!playerIdleDownTexture)
+    {
+        std::cout << "Player Idle Down Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
+    }
+    if (!playerIdleUpTexture)
+    {
+        std::cout << "Player Idle Up Texture could not be loaded! " << SDL_GetError() << std::endl;
     }
 
     return true;

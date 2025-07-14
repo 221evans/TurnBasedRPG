@@ -3,12 +3,11 @@
 //
 
 #include "Boar.h"
-
 #include <iostream>
-#include <__ostream/basic_ostream.h>
+
 
 Boar::Boar(): isWalking(false), health(100), damage(10), speed(100.0f), positionX(350), positionY(250),
-              boarIdleTexture(nullptr), boarWalkTexture(nullptr), boarCurrentTexture(nullptr)
+              boarIdleTexture(nullptr), boarWalkTexture(nullptr), boarCurrentTexture(nullptr), boarAttackTexture(nullptr)
 {
     destRect = {positionX, positionY, 96, 64};
     srcRect = {0, 0, 96, 64};
@@ -23,6 +22,7 @@ bool Boar::PreLoadAssets(SDL_Renderer* renderer)
 {
     boarIdleTexture = IMG_LoadTexture(renderer, "Assets/Enemy/Boar/Idle-Sheet.png");
     boarWalkTexture = IMG_LoadTexture(renderer,"Assets/Enemy/Boar/Walk-Sheet.png");
+    boarAttackTexture = IMG_LoadTexture(renderer, "Assets/Enemy/Boar/Attack-Sheet.png");
 
     if (boarIdleTexture == nullptr)
     {
@@ -34,16 +34,22 @@ bool Boar::PreLoadAssets(SDL_Renderer* renderer)
         std::cout << "Boar Walk Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
     }
+    if (boarAttackTexture == nullptr)
+    {
+        std::cout << "Boar Attack Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
+    }
     return true;
 }
 
 void Boar::Render(SDL_Renderer* renderer)
 {
-    SDL_RenderTextureRotated(renderer,boarIdleTexture,&srcRect,&destRect,0.0,nullptr,SDL_FLIP_NONE);
+    SDL_RenderTextureRotated(renderer,boarCurrentTexture,&srcRect,&destRect,0.0,nullptr,SDL_FLIP_NONE);
 }
 
 void Boar::MoveBoar(float deltaTime)
 {
+    boarCurrentTexture = boarIdleTexture;
     isWalking = true;
 
     destRect.x += speed * deltaTime;

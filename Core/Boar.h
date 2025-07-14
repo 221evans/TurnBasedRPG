@@ -30,6 +30,7 @@ private:
     SDL_Texture* boarIdleTexture;
     SDL_Texture* boarWalkTexture;
     SDL_Texture* boarCurrentTexture;
+    SDL_Texture* boarAttackTexture;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};
 };

@@ -40,6 +40,8 @@ private:
     SDL_Texture* playerCurrentTexture;
     SDL_Texture* playerUpRunTexture;
     SDL_Texture* playerDownRunTexture;
+    SDL_Texture* playerIdleDownTexture;
+    SDL_Texture* playerIdleUpTexture;
     SDL_FlipMode flip;
     void MovePlayer(float deltaTime);
 
