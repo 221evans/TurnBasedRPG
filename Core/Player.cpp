@@ -20,28 +20,7 @@ Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr)
 
 void Player::Init(SDL_Renderer* renderer)
 {
-    playerIdleSideTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Idle-Side-Sheet.png");
-    playerRunSideTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Side-Sheet.png");
-    playerUpRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Up-Sheet.png");
-    playerDownRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Down-Sheet.png");
-
-    playerCurrentTexture = playerIdleSideTexture;
-    if (playerRunSideTexture == nullptr)
-    {
-        std::cout << "Player Run Texture could not be loaded! " << SDL_GetError() << std::endl;
-    }
-    if (playerIdleSideTexture == nullptr)
-    {
-        std::cout << "Player Idle Side Texture could not be loaded!" << SDL_GetError() << std::endl;
-    }
-    if (playerUpRunTexture == nullptr)
-    {
-        std::cout << "Player Run up Texture could not be loaded!" << SDL_GetError() << std::endl;
-    }
-    if (playerDownRunTexture == nullptr)
-    {
-        std::cout << "Player Run down Texture could not be loaded!" << SDL_GetError() << std::endl;
-    }
+    PreLoadAssets(renderer);
 }
 
 void Player::Render(SDL_Renderer* renderer)
@@ -110,6 +89,37 @@ void Player::MovePlayer(float deltaTime)
 void Player::Update(SDL_Renderer* renderer, float deltaTime)
 {
     MovePlayer(deltaTime);
+}
+
+bool Player::PreLoadAssets(SDL_Renderer* renderer)
+{
+    playerIdleSideTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Idle-Side-Sheet.png");
+    playerRunSideTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Side-Sheet.png");
+    playerUpRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Up-Sheet.png");
+    playerDownRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Down-Sheet.png");
+
+    if (!playerIdleSideTexture)
+    {
+        std::cout << "Player Idle Side Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
+    }
+    if (!playerRunSideTexture)
+    {
+        std::cout << "Player Run Side Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
+    }
+    if (!playerUpRunTexture)
+    {
+        std::cout << "Player Run Up Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
+    }
+    if (!playerDownRunTexture)
+    {
+        std::cout << "Player Run Down Texture could not be loaded! " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    return true;
 }
 
 Player::~Player()

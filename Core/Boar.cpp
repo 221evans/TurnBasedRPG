@@ -50,7 +50,7 @@ void Boar::MoveBoar(float deltaTime)
         speed = -speed;
     }
 
-   std::cout << "Dest rect: " << destRect.x << std::endl;
+  // std::cout << "Dest rect: " << destRect.x << std::endl;
 
 }
 void Boar::Update(SDL_Renderer* renderer, float deltaTime)
