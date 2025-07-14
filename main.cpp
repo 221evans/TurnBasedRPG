@@ -15,7 +15,7 @@ int main()
     Boar boar;
 
     Uint32 previousTime = SDL_GetTicks();
-    SDL_Window* window = SDL_CreateWindow("Horde Survivor",windowWidth,windowHeight,0);
+    SDL_Window* window = SDL_CreateWindow("Turn Based RPG",windowWidth,windowHeight,0);
 
     if (window == nullptr)
     {
