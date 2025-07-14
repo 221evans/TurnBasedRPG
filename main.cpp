@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <unistd.h>
-
+#include "Core/Boar.h"
 #include "Core/Player.h"
 
 int main()
@@ -12,6 +12,7 @@ int main()
     constexpr int windowHeight = 600;
 
     Player player;
+    Boar boar;
 
     Uint32 previousTime = SDL_GetTicks();
     SDL_Window* window = SDL_CreateWindow("Horde Survivor",windowWidth,windowHeight,0);
@@ -33,7 +34,8 @@ int main()
 
     bool running = true;
     SDL_Event event;
-    player.Init(renderer); // Call load function
+    player.Init(renderer); // Call Player load function
+    boar.Init(renderer); // Call Boar load function
 
     while (running)
     {
@@ -56,8 +58,10 @@ int main()
 
         // Draw logic goes here
         player.Render(renderer);
+        boar.Render(renderer);
         // Update screen
         player.Update(renderer, deltaTime);
+        boar.Update(renderer, deltaTime);
 
         SDL_RenderPresent(renderer);
 

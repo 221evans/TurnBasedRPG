@@ -10,7 +10,10 @@ find_package(SDL3_image REQUIRED)
 # Add your executable
 add_executable(TurnBasedRPG main.cpp
         Core/Player.cpp
-        Core/Player.h)
+        Core/Player.h
+        Core/Boar.cpp
+        Core/Boar.h
+)
 
 # Link SDL3 and SDL3_image libraries
 target_link_libraries(TurnBasedRPG PRIVATE SDL3::SDL3 SDL3_image::SDL3_image)

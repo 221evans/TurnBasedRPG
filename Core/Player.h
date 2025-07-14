@@ -9,20 +9,8 @@
 
 class Player {
 
-    public:
-
+public:
     Player();
-
-    // Player Texture handling
-    SDL_FRect destRect{};
-    SDL_FRect srcRect{};
-    SDL_Texture* playerIdleSideTexture;
-    SDL_Texture* playerRunSideTexture;
-    SDL_Texture* playerCurrentTexture;
-    SDL_Texture* playerUpRunTexture;
-    SDL_Texture* playerDownRunTexture;
-    SDL_FlipMode flip;
-
     int health;
     bool isRunning;
     bool isDead;
@@ -38,16 +26,22 @@ class Player {
     int frameCount;
     int totalFrames;
     float frameTimer;
-
-
-
     void Init(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
-    void MovePlayer(float deltaTime);
     void Update(SDL_Renderer* renderer, float deltaTime);
     ~Player();
-
 private:
+    // Player Texture handling
+    SDL_FRect destRect{};
+    SDL_FRect srcRect{};
+    SDL_Texture* playerIdleSideTexture;
+    SDL_Texture* playerRunSideTexture;
+    SDL_Texture* playerCurrentTexture;
+    SDL_Texture* playerUpRunTexture;
+    SDL_Texture* playerDownRunTexture;
+    SDL_FlipMode flip;
+    void MovePlayer(float deltaTime);
+
     enum class CombatActions {
         Attack = 1,
         Defend,
