@@ -153,6 +153,21 @@ Player::~Player()
         SDL_DestroyTexture(playerDownRunTexture);
         playerDownRunTexture = nullptr;
     }
+    if (playerIdleDownTexture != nullptr)
+    {
+        SDL_DestroyTexture(playerIdleDownTexture);
+        playerIdleDownTexture = nullptr;
+    }
+    if (playerIdleUpTexture != nullptr)
+    {
+        SDL_DestroyTexture(playerIdleUpTexture);
+        playerIdleUpTexture = nullptr;
+    }
+    if (playerCurrentTexture != nullptr)
+    {
+        SDL_DestroyTexture(playerCurrentTexture);
+        playerCurrentTexture = nullptr;
+    }
 }
 
 

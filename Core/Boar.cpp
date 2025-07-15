@@ -24,17 +24,17 @@ bool Boar::PreLoadAssets(SDL_Renderer* renderer)
     boarWalkTexture = IMG_LoadTexture(renderer,"Assets/Enemy/Boar/Walk-Sheet.png");
     boarAttackTexture = IMG_LoadTexture(renderer, "Assets/Enemy/Boar/Attack-Sheet.png");
 
-    if (boarIdleTexture == nullptr)
+    if (!boarIdleTexture)
     {
         std::cout << "Boar Idle Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
     }
-    if (boarWalkTexture == nullptr)
+    if (!boarWalkTexture)
     {
         std::cout << "Boar Walk Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
     }
-    if (boarAttackTexture == nullptr)
+    if (!boarAttackTexture)
     {
         std::cout << "Boar Attack Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
@@ -83,5 +83,15 @@ Boar::~Boar()
     {
         SDL_DestroyTexture(boarWalkTexture);
         boarWalkTexture = nullptr;
+    }
+    if (boarCurrentTexture != nullptr)
+    {
+        SDL_DestroyTexture(boarCurrentTexture);
+        boarCurrentTexture = nullptr;
+    }
+    if (boarAttackTexture != nullptr)
+    {
+        SDL_DestroyTexture(boarAttackTexture);
+        boarAttackTexture = nullptr;
     }
 }
