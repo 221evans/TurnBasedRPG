@@ -131,6 +131,18 @@ bool Player::PreLoadAssets(SDL_Renderer* renderer)
     return true;
 }
 
+float Player::GetPositionX()
+{
+    positionX = destRect.x;
+    return positionX;
+}
+
+float Player::GetPositionY()
+{
+    positionY = destRect.y;
+    return positionY;
+}
+
 Player::~Player()
 {
     if (playerIdleSideTexture != nullptr)

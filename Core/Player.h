@@ -30,6 +30,12 @@ public:
     void Render(SDL_Renderer* renderer);
     void Update(SDL_Renderer* renderer, float deltaTime);
     bool PreLoadAssets(SDL_Renderer* renderer);
+
+    // Debug getter functions
+    float GetPositionX();
+    float GetPositionY();
+
+
     ~Player();
 private:
     // Player Texture handling

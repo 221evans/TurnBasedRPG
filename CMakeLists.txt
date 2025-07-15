@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 project(TurnBasedRPG)
 
-set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD 20)  # Use at least C++20 for modern features.
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Locate SDL3 library
 find_package(SDL3 REQUIRED)
@@ -15,11 +16,8 @@ add_executable(TurnBasedRPG main.cpp
         Core/Boar.h
 )
 
-# Locate OpenGL
-find_package(OpenGL REQUIRED)
-
-# Link SDL3, SDL3_image, and OpenGL
-target_link_libraries(TurnBasedRPG PRIVATE SDL3::SDL3 SDL3_image::SDL3_image OpenGL::GL)
+# Link SDL3 and SDL3_image (no OpenGL needed for SDL renderer)
+target_link_libraries(TurnBasedRPG PRIVATE SDL3::SDL3 SDL3_image::SDL3_image)
 
 # If needed, include SDL3 and SDL3_image headers
 target_include_directories(TurnBasedRPG PRIVATE ${SDL3_INCLUDE_DIRS} ${SDL3_IMAGE_INCLUDE_DIRS})
@@ -27,16 +25,20 @@ target_include_directories(TurnBasedRPG PRIVATE ${SDL3_INCLUDE_DIRS} ${SDL3_IMAG
 # Include ImGui library
 set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/imgui)
 set(IMGUI_SRC_FILES
-    ${IMGUI_DIR}/imgui.cpp
-    ${IMGUI_DIR}/imgui_draw.cpp
-    ${IMGUI_DIR}/imgui_tables.cpp
-    ${IMGUI_DIR}/imgui_demo.cpp
-    ${IMGUI_DIR}/backends/imgui_impl_sdl3.cpp
-    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+        ${IMGUI_DIR}/imgui.cpp
+        ${IMGUI_DIR}/imgui_draw.cpp
+        ${IMGUI_DIR}/imgui_tables.cpp
+        ${IMGUI_DIR}/imgui_widgets.cpp
+        ${IMGUI_DIR}/imgui_demo.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_sdl3.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_sdlrenderer3.cpp  # Use SDL renderer backend
 )
 
-# Add ImGui sources to the executable
+# Add all ImGui sources to the build.
 target_sources(TurnBasedRPG PRIVATE ${IMGUI_SRC_FILES})
 
-# Include directories for ImGui
+# Include the backends and main ImGui directory.
 target_include_directories(TurnBasedRPG PRIVATE ${IMGUI_DIR} ${IMGUI_DIR}/backends)
+
+# Add debug symbols during compilation.
+add_compile_options(-g -Wall)
