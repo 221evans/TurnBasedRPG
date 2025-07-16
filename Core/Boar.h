@@ -24,6 +24,11 @@ public:
     void Render(SDL_Renderer* renderer);
     void MoveBoar(float deltaTime);
     void Update(SDL_Renderer* renderer, float deltaTime);
+
+    // Debug getter functions
+    float GetPositionX();
+    float GetPositionY();
+
     ~Boar();
 
 private:

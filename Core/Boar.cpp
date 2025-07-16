@@ -72,6 +72,18 @@ void Boar::Update(SDL_Renderer* renderer, float deltaTime)
     MoveBoar(deltaTime);
 }
 
+float Boar::GetPositionX()
+{
+    positionX = destRect.x;
+    return positionX;
+}
+
+float Boar::GetPositionY()
+{
+    positionY = destRect.y;
+    return positionY;
+}
+
 Boar::~Boar()
 {
     if (boarIdleTexture != nullptr)

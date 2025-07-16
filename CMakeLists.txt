@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 project(TurnBasedRPG)
 
+
+
 set(CMAKE_CXX_STANDARD 20)  # Use at least C++20 for modern features.
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -42,3 +44,7 @@ target_include_directories(TurnBasedRPG PRIVATE ${IMGUI_DIR} ${IMGUI_DIR}/backen
 
 # Add debug symbols during compilation.
 add_compile_options(-g -Wall)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(TurnBasedRPG PRIVATE DEBUG_BUILD)
+endif()

@@ -82,6 +82,8 @@ int main()
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
 
+        #ifdef DEBUG_BUILD
+
         constexpr float PANEL_WIDTH = 250.0f;
         constexpr float PANEL_HEIGHT = static_cast<float>(windowHeight);
 
@@ -95,9 +97,18 @@ int main()
         float playerX = player.GetPositionX();
         float playerY = player.GetPositionY();
 
-        ImGui::Text("Player X: %f", playerX);  // Separate call for X
-        ImGui::Text("Player Y: %f", playerY);  // Separate call for Y
+        ImGui::Text("Player X: %f", playerX);
+        ImGui::Text("Player Y: %f", playerY);
 
+        ImGui::SeparatorText("Boar Info");
+
+        float boarX = boar.GetPositionX();
+        float boarY = boar.GetPositionY();
+
+        ImGui::Text("Boar X: %f", boarX);
+        ImGui::Text("Boar Y: %f", boarY);
+
+        #endif // DEBUG_BUILD
 
         // DeltaTime calculation
         Uint32 currentTime = SDL_GetTicks();
