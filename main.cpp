@@ -104,6 +104,9 @@ int main()
         ImGui::Text("Player Is Running Side : %s", isPlayerRunningSide ? "true" : "false");
         ImGui::Text("Player Is Running Up : %s", isPlayerRunningUp ? "true" : "false");
         ImGui::Text("Player Current Texture : %s", playerCurrentTexture.c_str());
+        ImGui::Text("Current Frame: %d", player.currentFrame);
+        ImGui::Text("Texture Ptr: %p", (void*)player.playerCurrentTexture);
+
         ImGui::SeparatorText("Boar Info");
 
         float boarX = boar.GetPositionX();

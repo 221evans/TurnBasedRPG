@@ -34,7 +34,7 @@ public:
     void Render(SDL_Renderer* renderer);
     void Update(SDL_Renderer* renderer, float deltaTime);
     bool PreLoadAssets(SDL_Renderer* renderer);
-
+    SDL_Texture* playerCurrentTexture;
     // Debug getter functions
     float GetPositionX();
     float GetPositionY();
@@ -51,7 +51,7 @@ private:
     SDL_FRect srcRect{};
     SDL_Texture* playerIdleSideTexture;
     SDL_Texture* playerRunSideTexture;
-    SDL_Texture* playerCurrentTexture;
+
     SDL_Texture* playerUpRunTexture;
     SDL_Texture* playerDownRunTexture;
     SDL_Texture* playerIdleDownTexture;

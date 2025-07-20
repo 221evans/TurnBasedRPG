@@ -60,6 +60,10 @@ void Player::Render(SDL_Renderer* renderer)
     srcRect.w = animData.frameWidth;
     srcRect.x = currentFrame * srcRect.w;
 
+    if (currentFrame >= animData.totalFrames) {
+        currentFrame = 0;  // Clamp to valid range
+    }
+
     SDL_RenderTextureRotated(renderer,playerCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
