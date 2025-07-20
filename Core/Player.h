@@ -16,7 +16,7 @@ public:
 
     Player();
     int health;
-    bool isRunning;
+    bool isRunningSide;
     bool isDead;
     bool isFacingLeft;
     bool isFacingUp;
@@ -38,6 +38,9 @@ public:
     // Debug getter functions
     float GetPositionX();
     float GetPositionY();
+    bool GetIsRunningSide();
+    bool GetIsRunningUp();
+    std::string GetCurrentTexture();
 
 
     ~Player();
@@ -61,10 +64,6 @@ private:
         Defend,
         Run,
     };
-
-
-
-
 };
 
 

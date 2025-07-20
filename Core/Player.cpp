@@ -8,7 +8,7 @@
 
 Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), playerCurrentTexture(nullptr),
                    playerUpRunTexture(nullptr),playerDownRunTexture(nullptr), playerIdleDownTexture(nullptr),
-                   playerIdleUpTexture(nullptr),flip(SDL_FLIP_NONE), health(100),isRunning(false), isDead(false),
+                   playerIdleUpTexture(nullptr),flip(SDL_FLIP_NONE), health(100),isRunningSide(false), isDead(false),
                    isFacingLeft(false),isFacingUp(false), isFacingDown(false), speed(100), positionX(250),
                    positionY(250), currentFrame(0), frameSpeed(8), frameCount(0), totalFrames(4),frameTimer(0.0f)
 {
@@ -27,7 +27,12 @@ void Player::Render(SDL_Renderer* renderer)
 
     flip = SDL_FLIP_NONE;
 
-    if (isRunning)
+    if (!playerCurrentTexture)
+    {
+        playerCurrentTexture = playerIdleSideTexture;
+    }
+
+    if (isRunningSide)
     {
         playerCurrentTexture = playerRunSideTexture;
         if (isFacingLeft)
@@ -62,7 +67,7 @@ void Player::Render(SDL_Renderer* renderer)
 void Player::MovePlayer(float deltaTime)
 {
     const bool* keyboardState = SDL_GetKeyboardState(nullptr);
-    isRunning = false;
+    isRunningSide = false;
     isFacingUp = false;
     isFacingDown = false;
     isFacingLeft = false;
@@ -80,14 +85,14 @@ void Player::MovePlayer(float deltaTime)
     if (keyboardState[SDL_SCANCODE_A])
     {
         destRect.x -= speed * deltaTime;
-        isRunning = true;
+        isRunningSide = true;
         isFacingLeft = true;
 
     }
     if (keyboardState[SDL_SCANCODE_D])
     {
         destRect.x += speed * deltaTime;
-        isRunning = true;
+        isRunningSide = true;
     }
 }
 
@@ -149,7 +154,7 @@ bool Player::PreLoadAssets(SDL_Renderer* renderer)
     animationInfo[playerIdleDownTexture] = {4, 64, 4};
     animationInfo[playerIdleUpTexture] = {4, 64, 4};
     animationInfo[playerRunSideTexture] = {6, 64, 8};
-    animationInfo[playerUpRunTexture] = {6, 64, 8};
+    animationInfo[playerUpRunTexture] = {4, 64, 8};
     animationInfo[playerDownRunTexture] = {6, 64, 8};
     return true;
 }
@@ -165,6 +170,42 @@ float Player::GetPositionY()
     positionY = destRect.y;
     return positionY;
 }
+
+bool Player::GetIsRunningSide()
+{
+    return isRunningSide;
+}
+
+bool Player::GetIsRunningUp()
+{
+    return isFacingUp;
+}
+
+std::string Player::GetCurrentTexture()
+{
+    if (playerCurrentTexture == playerIdleSideTexture)
+    {
+        return "Idle-Side";
+    }
+    if (playerCurrentTexture == playerRunSideTexture)
+    {
+        return "Run-Side";
+    }
+    if (playerCurrentTexture == playerUpRunTexture)
+    {
+        return "Run-Up";
+    }
+    if (playerCurrentTexture == playerDownRunTexture)
+    {
+        return "Run-Down";
+    }
+    if (!playerCurrentTexture)
+    {
+        return "No Texture";
+    }
+
+}
+
 
 Player::~Player()
 {

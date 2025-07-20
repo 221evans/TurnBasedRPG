@@ -69,11 +69,11 @@ void Boar::Render(SDL_Renderer* renderer)
 
 void Boar::MoveBoar(float deltaTime)
 {
-    boarCurrentTexture = boarIdleTexture;
+    boarCurrentTexture = boarWalkTexture;
     isWalking = true;
 
 
-    destRect.x += speed * deltaTime;
+    destRect.x += -speed * deltaTime;
     if (destRect.x >= 600)
     {
         isFacingLeft = true;
@@ -100,6 +100,10 @@ void Boar::Update(SDL_Renderer* renderer, float deltaTime)
         frameTimer = 0.0f;
         currentFrame = (currentFrame + 1) % animData.totalFrames;
     }
+
+    srcRect.x = animData.frameWidth * currentFrame;
+    srcRect.w = animData.frameWidth;
+
 
 }
 

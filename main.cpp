@@ -96,19 +96,23 @@ int main()
 
         float playerX = player.GetPositionX();
         float playerY = player.GetPositionY();
-
+        bool isPlayerRunningSide = player.GetIsRunningSide();
+        bool isPlayerRunningUp = player.GetIsRunningUp();
+        std::string playerCurrentTexture = player.GetCurrentTexture();
         ImGui::Text("Player X: %f", playerX);
         ImGui::Text("Player Y: %f", playerY);
-
+        ImGui::Text("Player Is Running Side : %s", isPlayerRunningSide ? "true" : "false");
+        ImGui::Text("Player Is Running Up : %s", isPlayerRunningUp ? "true" : "false");
+        ImGui::Text("Player Current Texture : %s", playerCurrentTexture.c_str());
         ImGui::SeparatorText("Boar Info");
 
         float boarX = boar.GetPositionX();
         float boarY = boar.GetPositionY();
-        bool isWalking = boar.GetIsWalking();
+        bool isBoarWalking = boar.GetIsWalking();
 
         ImGui::Text("Boar X: %f", boarX);
         ImGui::Text("Boar Y: %f", boarY);
-        ImGui::Text("Boar Is Walking: %s", isWalking ? "true" : "false");
+        ImGui::Text("Boar Is Walking: %s", isBoarWalking ? "true" : "false");
 
         #endif // DEBUG_BUILD
 
