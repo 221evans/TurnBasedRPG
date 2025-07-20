@@ -104,9 +104,11 @@ int main()
 
         float boarX = boar.GetPositionX();
         float boarY = boar.GetPositionY();
+        bool isWalking = boar.GetIsWalking();
 
         ImGui::Text("Boar X: %f", boarX);
         ImGui::Text("Boar Y: %f", boarY);
+        ImGui::Text("Boar Is Walking: %s", isWalking ? "true" : "false");
 
         #endif // DEBUG_BUILD
 

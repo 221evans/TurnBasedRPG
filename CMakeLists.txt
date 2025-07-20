@@ -16,6 +16,7 @@ add_executable(TurnBasedRPG main.cpp
         Core/Player.h
         Core/Boar.cpp
         Core/Boar.h
+        Core/AnimationData.h
 )
 
 # Link SDL3 and SDL3_image (no OpenGL needed for SDL renderer)

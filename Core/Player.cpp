@@ -49,6 +49,12 @@ void Player::Render(SDL_Renderer* renderer)
         playerCurrentTexture = playerIdleSideTexture;
     }
 
+
+
+    AnimationData& animData = animationInfo[playerCurrentTexture];
+    srcRect.w = animData.frameWidth;
+    srcRect.x = currentFrame * srcRect.w;
+
     SDL_RenderTextureRotated(renderer,playerCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
@@ -88,6 +94,16 @@ void Player::MovePlayer(float deltaTime)
 void Player::Update(SDL_Renderer* renderer, float deltaTime)
 {
     MovePlayer(deltaTime);
+
+    AnimationData& animData = animationInfo[playerCurrentTexture];
+
+    frameTimer += deltaTime;
+    if (frameTimer >= (1.0f / animData.frameSpeed))
+    {
+        frameTimer = 0.0f;
+        currentFrame = (currentFrame + 1) % animData.totalFrames;
+
+    }
 }
 
 bool Player::PreLoadAssets(SDL_Renderer* renderer)
@@ -98,6 +114,7 @@ bool Player::PreLoadAssets(SDL_Renderer* renderer)
     playerDownRunTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Run-Down-Sheet.png");
     playerIdleDownTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Idle-Down-Sheet.png");
     playerIdleUpTexture = IMG_LoadTexture(renderer, "Assets/PlayerAssets/Idle-Up-Sheet.png");
+
     if (!playerIdleSideTexture)
     {
         std::cout << "Player Idle Side Texture could not be loaded! " << SDL_GetError() << std::endl;
@@ -128,6 +145,12 @@ bool Player::PreLoadAssets(SDL_Renderer* renderer)
         std::cout << "Player Idle Up Texture could not be loaded! " << SDL_GetError() << std::endl;
     }
 
+    animationInfo[playerIdleSideTexture] = {4, 64, 4};
+    animationInfo[playerIdleDownTexture] = {4, 64, 4};
+    animationInfo[playerIdleUpTexture] = {4, 64, 4};
+    animationInfo[playerRunSideTexture] = {6, 64, 8};
+    animationInfo[playerUpRunTexture] = {6, 64, 8};
+    animationInfo[playerDownRunTexture] = {6, 64, 8};
     return true;
 }
 

@@ -6,10 +6,14 @@
 #define PLAYER_H
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include <map>
+#include "AnimationData.h"
+
 
 class Player {
 
 public:
+
     Player();
     int health;
     bool isRunning;
@@ -39,6 +43,7 @@ public:
     ~Player();
 private:
     // Player Texture handling
+    std::map<SDL_Texture*, AnimationData> animationInfo;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};
     SDL_Texture* playerIdleSideTexture;

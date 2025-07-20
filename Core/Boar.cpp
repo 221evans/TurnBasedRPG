@@ -6,11 +6,14 @@
 #include <iostream>
 
 
-Boar::Boar(): isWalking(false), health(100), damage(10), speed(100.0f), positionX(350), positionY(250),
-              boarIdleTexture(nullptr), boarWalkTexture(nullptr), boarCurrentTexture(nullptr), boarAttackTexture(nullptr)
+Boar::Boar(): isWalking(false), isFacingLeft(true), health(100), damage(10), speed(100.0f), positionX(350),
+              positionY(250),frameTimer(0.0f),
+              currentFrame(0), boarIdleTexture(nullptr), boarWalkTexture(nullptr),
+              boarCurrentTexture(nullptr),
+              boarAttackTexture(nullptr), flip(SDL_FLIP_NONE)
 {
-    destRect = {positionX, positionY, 96, 64};
-    srcRect = {0, 0, 96, 64};
+    destRect = {positionX, positionY, 80, 64};
+    srcRect = {0, 0, 80, 64};
 }
 
 void Boar::Init(SDL_Renderer* renderer)
@@ -39,12 +42,29 @@ bool Boar::PreLoadAssets(SDL_Renderer* renderer)
         std::cout << "Boar Attack Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
     }
+
+    animationInfo[boarIdleTexture] = {4, 80, 4};
+    animationInfo[boarWalkTexture] = {6, 80, 8};
+
     return true;
 }
 
 void Boar::Render(SDL_Renderer* renderer)
 {
-    SDL_RenderTextureRotated(renderer,boarCurrentTexture,&srcRect,&destRect,0.0,nullptr,SDL_FLIP_NONE);
+    flip = SDL_FLIP_NONE;
+
+    if (!isFacingLeft)
+    {
+        flip = SDL_FLIP_HORIZONTAL;
+    }
+
+    if (isWalking)
+    {
+        boarCurrentTexture = boarWalkTexture;
+    }
+
+
+    SDL_RenderTextureRotated(renderer,boarCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
 void Boar::MoveBoar(float deltaTime)
@@ -52,24 +72,35 @@ void Boar::MoveBoar(float deltaTime)
     boarCurrentTexture = boarIdleTexture;
     isWalking = true;
 
+
     destRect.x += speed * deltaTime;
     if (destRect.x >= 600)
     {
+        isFacingLeft = true;
         destRect.x = 600;
         speed = -speed;
     }
    if (destRect.x <= 10)
     {
+       isFacingLeft = false;
         destRect.x = 10;
         speed = -speed;
     }
 
-  // std::cout << "Dest rect: " << destRect.x << std::endl;
 
 }
 void Boar::Update(SDL_Renderer* renderer, float deltaTime)
 {
     MoveBoar(deltaTime);
+
+    AnimationData& animData = animationInfo[boarCurrentTexture];
+    frameTimer += deltaTime;
+    if (frameTimer >= (1.0f / animData.frameSpeed))
+    {
+        frameTimer = 0.0f;
+        currentFrame = (currentFrame + 1) % animData.totalFrames;
+    }
+
 }
 
 float Boar::GetPositionX()
@@ -82,6 +113,11 @@ float Boar::GetPositionY()
 {
     positionY = destRect.y;
     return positionY;
+}
+
+bool Boar::GetIsWalking()
+{
+    return isWalking;
 }
 
 Boar::~Boar()
