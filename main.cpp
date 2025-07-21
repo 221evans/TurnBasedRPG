@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "Core/Boar.h"
+#include "Core/Game.h"
 #include "Core/Player.h"
 
 // Main Function
@@ -57,8 +58,8 @@ int main()
 
     Player player;
     Boar boar;
-    player.Init(renderer);
-    boar.Init(renderer);
+    Game game;
+    game.Init(renderer);
 
     Uint32 previousTime = SDL_GetTicks();
 
@@ -125,16 +126,13 @@ int main()
         previousTime = currentTime;
 
         // Update game logic
-        player.Update(renderer, deltaTime);
-        boar.Update(renderer, deltaTime);
+        game.Update(renderer,deltaTime);
 
         // Clear screen & render game objects
         SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);  // Dark gray background
         SDL_RenderClear(renderer);
 
-        player.Render(renderer);
-
-        boar.Render(renderer);
+        game.Render(renderer);
 
         // Render ImGui
         ImGui::Render();

@@ -9,7 +9,7 @@
 Boar::Boar(): isWalking(false), isFacingLeft(true), health(100), damage(10), speed(100.0f), positionX(350),
               positionY(250),frameTimer(0.0f),
               currentFrame(0), boarIdleTexture(nullptr), boarWalkTexture(nullptr),
-              boarCurrentTexture(nullptr),
+              boarCurrentTexture(nullptr),isInCombat(false),
               boarAttackTexture(nullptr), flip(SDL_FLIP_NONE)
 {
     destRect = {positionX, positionY, 80, 64};
@@ -67,26 +67,37 @@ void Boar::Render(SDL_Renderer* renderer)
     SDL_RenderTextureRotated(renderer,boarCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
+
+
 void Boar::MoveBoar(float deltaTime)
 {
-    boarCurrentTexture = boarWalkTexture;
-    isWalking = true;
 
-
-    destRect.x += -speed * deltaTime;
-    if (destRect.x >= 600)
+    if (!isInCombat)
     {
-        isFacingLeft = true;
-        destRect.x = 600;
-        speed = -speed;
-    }
-   if (destRect.x <= 10)
-    {
-       isFacingLeft = false;
-        destRect.x = 10;
-        speed = -speed;
-    }
+        boarCurrentTexture = boarWalkTexture;
+        isWalking = true;
 
+        destRect.x += -speed * deltaTime;
+        if (destRect.x >= 600)
+        {
+            isFacingLeft = true;
+            destRect.x = 600;
+            speed = -speed;
+        }
+        if (destRect.x <= 10)
+        {
+            isFacingLeft = false;
+            destRect.x = 10;
+            speed = -speed;
+        }
+
+
+    }
+    else
+    {
+        isWalking = false;
+        boarCurrentTexture = boarIdleTexture;
+    }
 
 }
 void Boar::Update(SDL_Renderer* renderer, float deltaTime)

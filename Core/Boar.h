@@ -22,6 +22,7 @@ public:
     float positionY;
     float frameTimer;
     int currentFrame;
+    bool isInCombat;
 
     void Init(SDL_Renderer* renderer);
     bool PreLoadAssets(SDL_Renderer* renderer);
