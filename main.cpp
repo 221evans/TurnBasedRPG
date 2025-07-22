@@ -26,7 +26,7 @@ int main()
     }
 
     // SDL Window creation (no OpenGL flag needed)
-    SDL_Window* window = SDL_CreateWindow("Turn Based RPG + ImGui", windowWidth, windowHeight, 0);
+    SDL_Window* window = SDL_CreateWindow("Turn Based RPG", windowWidth, windowHeight, 0);
     if (!window)
     {
         std::cout << "Window could not be created: " << SDL_GetError() << std::endl;
@@ -60,6 +60,8 @@ int main()
     Boar boar;
     Game game;
     game.Init(renderer);
+    player.Init(renderer);
+    boar.Init(renderer);
 
     Uint32 previousTime = SDL_GetTicks();
 
@@ -127,12 +129,16 @@ int main()
 
         // Update game logic
         game.Update(renderer,deltaTime);
+        player.Update(renderer, deltaTime);
+        boar.Update(renderer, deltaTime);
 
         // Clear screen & render game objects
         SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);  // Dark gray background
         SDL_RenderClear(renderer);
 
         game.Render(renderer);
+        player.Render(renderer);
+        boar.Render(renderer);
 
         // Render ImGui
         ImGui::Render();

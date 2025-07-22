@@ -10,7 +10,7 @@ Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr)
                    playerUpRunTexture(nullptr),playerDownRunTexture(nullptr), playerIdleDownTexture(nullptr),
                    playerIdleUpTexture(nullptr),flip(SDL_FLIP_NONE), health(100),isRunningSide(false), isDead(false),
                    isFacingLeft(false),isFacingUp(false), isFacingDown(false), speed(100), positionX(250),
-                   positionY(250), currentFrame(0), frameSpeed(8), frameCount(0), totalFrames(4),frameTimer(0.0f)
+                   positionY(350), currentFrame(0), frameSpeed(8), frameCount(0), totalFrames(4),frameTimer(0.0f)
 {
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
