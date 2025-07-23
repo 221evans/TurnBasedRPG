@@ -5,11 +5,8 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <unistd.h>
-
 #include "Core/Boar.h"
 #include "Core/Game.h"
-#include "Core/Player.h"
-
 // Main Function
 int main()
 {
@@ -56,12 +53,10 @@ int main()
     ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
     ImGui_ImplSDLRenderer3_Init(renderer);
 
-    Player player;
+
     Boar boar;
     Game game;
     game.Init(renderer);
-    player.Init(renderer);
-    boar.Init(renderer);
 
     Uint32 previousTime = SDL_GetTicks();
 
@@ -94,31 +89,8 @@ int main()
         ImGui::SetNextWindowPos(ImVec2(windowWidth - PANEL_WIDTH, 0), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(PANEL_WIDTH, PANEL_HEIGHT), ImGuiCond_Always);
 
+        game.Debugging();
 
-        ImGui::SeparatorText("Player Info");
-
-        float playerX = player.GetPositionX();
-        float playerY = player.GetPositionY();
-        bool isPlayerRunningSide = player.GetIsRunningSide();
-        bool isPlayerRunningUp = player.GetIsRunningUp();
-        std::string playerCurrentTexture = player.GetCurrentTexture();
-        ImGui::Text("Player X: %f", playerX);
-        ImGui::Text("Player Y: %f", playerY);
-        ImGui::Text("Player Is Running Side : %s", isPlayerRunningSide ? "true" : "false");
-        ImGui::Text("Player Is Running Up : %s", isPlayerRunningUp ? "true" : "false");
-        ImGui::Text("Player Current Texture : %s", playerCurrentTexture.c_str());
-        ImGui::Text("Current Frame: %d", player.currentFrame);
-        ImGui::Text("Texture Ptr: %p", (void*)player.playerCurrentTexture);
-
-        ImGui::SeparatorText("Boar Info");
-
-        float boarX = boar.GetPositionX();
-        float boarY = boar.GetPositionY();
-        bool isBoarWalking = boar.GetIsWalking();
-
-        ImGui::Text("Boar X: %f", boarX);
-        ImGui::Text("Boar Y: %f", boarY);
-        ImGui::Text("Boar Is Walking: %s", isBoarWalking ? "true" : "false");
 
         #endif // DEBUG_BUILD
 
@@ -128,17 +100,18 @@ int main()
         previousTime = currentTime;
 
         // Update game logic
+
         game.Update(renderer,deltaTime);
-        player.Update(renderer, deltaTime);
-        boar.Update(renderer, deltaTime);
+
+
+
 
         // Clear screen & render game objects
         SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);  // Dark gray background
         SDL_RenderClear(renderer);
 
+
         game.Render(renderer);
-        player.Render(renderer);
-        boar.Render(renderer);
 
         // Render ImGui
         ImGui::Render();

@@ -28,7 +28,7 @@ public:
     bool PreLoadAssets(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
     void MoveBoar(float deltaTime);
-    void Update(SDL_Renderer* renderer, float deltaTime);
+    void FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime);
 
     // Debug getter functions
     float GetPositionX();

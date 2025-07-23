@@ -100,7 +100,7 @@ void Player::MovePlayer(float deltaTime)
     }
 }
 
-void Player::Update(SDL_Renderer* renderer, float deltaTime)
+void Player::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
 {
     MovePlayer(deltaTime);
 

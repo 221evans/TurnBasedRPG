@@ -32,7 +32,7 @@ public:
     float frameTimer;
     void Init(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
-    void Update(SDL_Renderer* renderer, float deltaTime);
+    void FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime);
     bool PreLoadAssets(SDL_Renderer* renderer);
     SDL_Texture* playerCurrentTexture;
     // Debug getter functions

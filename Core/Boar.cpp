@@ -100,7 +100,7 @@ void Boar::MoveBoar(float deltaTime)
     }
 
 }
-void Boar::Update(SDL_Renderer* renderer, float deltaTime)
+void Boar::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
 {
     MoveBoar(deltaTime);
 
