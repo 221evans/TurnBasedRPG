@@ -111,8 +111,12 @@ void Player::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
     {
         frameTimer = 0.0f;
         currentFrame = (currentFrame + 1) % animData.totalFrames;
-
     }
+}
+
+void Player::CombatUpdate(SDL_Renderer* renderer, float deltaTime)
+{
+
 }
 
 bool Player::PreLoadAssets(SDL_Renderer* renderer)
@@ -172,6 +176,18 @@ float Player::GetPositionX()
 float Player::GetPositionY()
 {
     positionY = destRect.y;
+    return positionY;
+}
+
+float Player::SetPositionX(float x)
+{
+    destRect.x = x;
+    return positionX;
+}
+
+float Player::SetPositionY(float y)
+{
+    destRect.y = y;
     return positionY;
 }
 

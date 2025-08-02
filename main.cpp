@@ -102,10 +102,7 @@ int main()
         // Update game logic
 
         game.Update(renderer,deltaTime);
-
-
-
-
+        
         // Clear screen & render game objects
         SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);  // Dark gray background
         SDL_RenderClear(renderer);

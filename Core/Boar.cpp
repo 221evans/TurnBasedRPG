@@ -53,6 +53,15 @@ void Boar::Render(SDL_Renderer* renderer)
 {
     flip = SDL_FLIP_NONE;
 
+    if (isInCombat && isFacingLeft)
+    {
+        flip = SDL_FLIP_NONE;
+    }
+    else if (isInCombat && !isFacingLeft)
+    {
+        flip = SDL_FLIP_HORIZONTAL;
+    }
+
     if (!isFacingLeft)
     {
         flip = SDL_FLIP_HORIZONTAL;
@@ -61,6 +70,10 @@ void Boar::Render(SDL_Renderer* renderer)
     if (isWalking)
     {
         boarCurrentTexture = boarWalkTexture;
+    }
+    else if (isInCombat)
+    {
+        boarCurrentTexture = boarIdleTexture;
     }
 
 
@@ -91,7 +104,6 @@ void Boar::MoveBoar(float deltaTime)
             speed = -speed;
         }
 
-
     }
     else
     {
@@ -100,10 +112,9 @@ void Boar::MoveBoar(float deltaTime)
     }
 
 }
-void Boar::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
-{
-    MoveBoar(deltaTime);
 
+void Boar::Animate(float deltaTime)
+{
     AnimationData& animData = animationInfo[boarCurrentTexture];
     frameTimer += deltaTime;
     if (frameTimer >= (1.0f / animData.frameSpeed))
@@ -115,7 +126,17 @@ void Boar::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
     srcRect.x = animData.frameWidth * currentFrame;
     srcRect.w = animData.frameWidth;
 
+}
+void Boar::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
+{
+    MoveBoar(deltaTime);
+    Animate(deltaTime);
+}
 
+void Boar::CombatUpdate(SDL_Renderer* renderer, float deltaTime)
+{
+    boarCurrentTexture = boarIdleTexture;
+    Animate(deltaTime);
 }
 
 float Boar::GetPositionX()
@@ -127,6 +148,19 @@ float Boar::GetPositionX()
 float Boar::GetPositionY()
 {
     positionY = destRect.y;
+    return positionY;
+}
+
+float Boar::SetPositionX(float x)
+{
+    destRect.x = x;
+    return positionX;
+}
+
+float Boar::SetPositionY(float y)
+{
+    positionY = y;
+    destRect.y = y;
     return positionY;
 }
 

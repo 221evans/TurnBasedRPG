@@ -29,10 +29,13 @@ public:
     void Render(SDL_Renderer* renderer);
     void MoveBoar(float deltaTime);
     void FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime);
-
+    void CombatUpdate(SDL_Renderer* renderer, float deltaTime);
+    void Animate(float deltaTime);
     // Debug getter functions
     float GetPositionX();
     float GetPositionY();
+    float SetPositionX(float x);
+    float SetPositionY(float y);
     bool GetIsWalking();
 
     ~Boar();

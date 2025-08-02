@@ -5,6 +5,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include "Boar.h"
+#include "GameState.h"
 #include "Player.h"
 
 
@@ -13,6 +14,7 @@ public:
     Game();
     Player player;
     Boar boar;
+    GameState gameState;
     void Init(SDL_Renderer* renderer);
     void Update(SDL_Renderer* renderer, float deltaTime);
     void Render(SDL_Renderer* renderer);

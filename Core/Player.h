@@ -33,11 +33,15 @@ public:
     void Init(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
     void FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime);
+    void CombatUpdate(SDL_Renderer* renderer, float deltaTime);
     bool PreLoadAssets(SDL_Renderer* renderer);
     SDL_Texture* playerCurrentTexture;
     // Debug getter functions
     float GetPositionX();
     float GetPositionY();
+    float SetPositionX(float x);
+    float SetPositionY(float y);
+    bool GetIsWalking();
     bool GetIsRunningSide();
     bool GetIsRunningUp();
     std::string GetCurrentTexture();
