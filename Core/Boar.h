@@ -24,6 +24,11 @@ public:
     int currentFrame;
     bool isInCombat;
 
+    SDL_Texture* boarCurrentTexture;
+    std::map<SDL_Texture*, AnimationData> animationInfo;
+    SDL_Texture* boarIdleTexture;
+    SDL_Texture* boarWalkTexture;
+
     void Init(SDL_Renderer* renderer);
     bool PreLoadAssets(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
@@ -37,15 +42,15 @@ public:
     float SetPositionX(float x);
     float SetPositionY(float y);
     bool GetIsWalking();
+    std::string GetCurrentTexture();
+
 
     ~Boar();
 
 private:
     // Boar Texture handling
-    std::map<SDL_Texture*, AnimationData> animationInfo;
-    SDL_Texture* boarIdleTexture;
-    SDL_Texture* boarWalkTexture;
-    SDL_Texture* boarCurrentTexture;
+
+
     SDL_Texture* boarAttackTexture;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};

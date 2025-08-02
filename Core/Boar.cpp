@@ -43,7 +43,7 @@ bool Boar::PreLoadAssets(SDL_Renderer* renderer)
         return false;
     }
 
-    animationInfo[boarIdleTexture] = {4, 80, 4};
+    animationInfo[boarIdleTexture] = {4, 96, 4};
     animationInfo[boarWalkTexture] = {6, 80, 8};
 
     return true;
@@ -135,7 +135,9 @@ void Boar::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
 
 void Boar::CombatUpdate(SDL_Renderer* renderer, float deltaTime)
 {
-    boarCurrentTexture = boarIdleTexture;
+    currentFrame = 0;
+    isWalking = false;
+    isInCombat = true;
     Animate(deltaTime);
 }
 
@@ -168,6 +170,24 @@ bool Boar::GetIsWalking()
 {
     return isWalking;
 }
+
+std::string Boar::GetCurrentTexture()
+{
+    if (boarCurrentTexture == boarIdleTexture)
+    {
+        return "Idle";
+    }
+    if (boarCurrentTexture == boarWalkTexture)
+    {
+        return "Walk";
+    }
+    if (!boarCurrentTexture)
+    {
+        return "No Texture";
+    }
+}
+
+
 
 Boar::~Boar()
 {

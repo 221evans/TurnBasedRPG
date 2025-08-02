@@ -69,10 +69,10 @@ void Game::Debugging()
     float boarX = boar.GetPositionX();
     float boarY = boar.GetPositionY();
     bool isBoarWalking = boar.GetIsWalking();
-
     ImGui::Text("Boar X: %f", boarX);
     ImGui::Text("Boar Y: %f", boarY);
     ImGui::Text("Boar Is Walking: %s", isBoarWalking ? "true" : "false");
+    ImGui::Text("Boar Current Texture: %s", boar.GetCurrentTexture().c_str());
     ImGui::SeparatorText("Controls");
     if (ImGui::Button("In Combat"))
     {
