@@ -8,8 +8,8 @@
 
 Boar::Boar(): isWalking(false), isFacingLeft(true), health(100), damage(10), speed(100.0f), positionX(350),
               positionY(250),frameTimer(0.0f),
-              currentFrame(0), boarIdleTexture(nullptr), boarWalkTexture(nullptr),
-              boarCurrentTexture(nullptr),isInCombat(false),
+              currentFrame(0), isInCombat(false), boarCurrentTexture(nullptr),
+              boarIdleTexture(nullptr),boarWalkTexture(nullptr),
               boarAttackTexture(nullptr), flip(SDL_FLIP_NONE)
 {
     destRect = {positionX, positionY, 80, 64};
@@ -53,15 +53,6 @@ void Boar::Render(SDL_Renderer* renderer)
 {
     flip = SDL_FLIP_NONE;
 
-    if (isInCombat && isFacingLeft)
-    {
-        flip = SDL_FLIP_NONE;
-    }
-    else if (isInCombat && !isFacingLeft)
-    {
-        flip = SDL_FLIP_HORIZONTAL;
-    }
-
     if (!isFacingLeft)
     {
         flip = SDL_FLIP_HORIZONTAL;
@@ -74,6 +65,7 @@ void Boar::Render(SDL_Renderer* renderer)
     else if (isInCombat)
     {
         boarCurrentTexture = boarIdleTexture;
+        flip = SDL_FLIP_NONE;
     }
 
 
@@ -104,6 +96,7 @@ void Boar::MoveBoar(float deltaTime)
             speed = -speed;
         }
 
+
     }
     else
     {
@@ -117,14 +110,14 @@ void Boar::Animate(float deltaTime)
 {
     AnimationData& animData = animationInfo[boarCurrentTexture];
     frameTimer += deltaTime;
-    if (frameTimer >= (1.0f / animData.frameSpeed))
+    if (frameTimer >= (1.0f / static_cast<float>(animData.frameSpeed)))
     {
         frameTimer = 0.0f;
         currentFrame = (currentFrame + 1) % animData.totalFrames;
     }
 
-    srcRect.x = animData.frameWidth * currentFrame;
-    srcRect.w = animData.frameWidth;
+    srcRect.x = static_cast<float>(animData.frameWidth) * static_cast<float>(currentFrame);
+    srcRect.w = static_cast<float> (animData.frameWidth);
 
 }
 void Boar::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
@@ -135,6 +128,7 @@ void Boar::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
 
 void Boar::CombatUpdate(SDL_Renderer* renderer, float deltaTime)
 {
+    flip = SDL_FLIP_NONE;
     currentFrame = 0;
     isWalking = false;
     isInCombat = true;
@@ -185,6 +179,7 @@ std::string Boar::GetCurrentTexture()
     {
         return "No Texture";
     }
+    return "Unassigned";
 }
 
 
