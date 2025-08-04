@@ -9,8 +9,9 @@
 #include <SDL3_image/SDL_image.h>
 #include <map>
 #include "AnimationData.h"
+#include "Entity.h"
 
-class Boar {
+class Boar : public Entity {
 public:
     Boar();
     bool isWalking;
@@ -18,23 +19,21 @@ public:
     int health;
     int damage;
     float speed;
-    float positionX;
-    float positionY;
     float frameTimer;
     int currentFrame;
     bool isInCombat;
 
-    SDL_Texture* boarCurrentTexture;
+
     std::map<SDL_Texture*, AnimationData> animationInfo;
     SDL_Texture* boarIdleTexture;
     SDL_Texture* boarWalkTexture;
 
-    void Init(SDL_Renderer* renderer);
-    bool PreLoadAssets(SDL_Renderer* renderer);
-    void Render(SDL_Renderer* renderer);
+    void Init(SDL_Renderer* renderer) override;
+    bool PreLoadAssets(SDL_Renderer* renderer) override;
+    void Render(SDL_Renderer* renderer) override;
     void MoveBoar(float deltaTime);
-    void FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime);
-    void CombatUpdate(SDL_Renderer* renderer, float deltaTime);
+    void FreeRoamUpdate(float deltaTime) override;
+    void CombatUpdate(float deltaTime) override;
     void Animate(float deltaTime);
     // Debug getter functions
     float GetPositionX();
@@ -45,12 +44,10 @@ public:
     std::string GetCurrentTexture();
 
 
-    ~Boar();
+    ~Boar() override;
 
 private:
     // Boar Texture handling
-
-
     SDL_Texture* boarAttackTexture;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};

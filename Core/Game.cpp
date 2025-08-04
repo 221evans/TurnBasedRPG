@@ -7,7 +7,11 @@
 #include "player.h"
 #include "boar.h"
 
-Game::Game(): gameState(GameState::FreeRoam){}
+Game::Game(): gameState(GameState::FreeRoam)
+{
+    Boar boar;
+    Player player;
+}
 
 void Game::Init(SDL_Renderer* renderer)
 {
@@ -20,12 +24,13 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     if (gameState == GameState::Menu)
     {
         // Menu logic to go here
+
     }
     else if (gameState == GameState::FreeRoam)
     {
         boar.isInCombat = false;
         player.FreeRoamUpdate(renderer, deltaTime);
-        boar.FreeRoamUpdate(renderer, deltaTime);
+        boar.FreeRoamUpdate(deltaTime);
     }
     else if (gameState == GameState::Combat)
     {
@@ -33,7 +38,8 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
         boar.isInCombat = true;
         boar.SetPositionX(350);
         boar.SetPositionY(250);
-        boar.CombatUpdate(renderer, deltaTime);
+        boar.CombatUpdate(deltaTime);
+        player.CombatUpdate(renderer, deltaTime);
         player.SetPositionX(150);
         player.SetPositionY(250);
     }

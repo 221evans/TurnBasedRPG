@@ -20,6 +20,8 @@ add_executable(TurnBasedRPG main.cpp
         Core/GameState.h
         Core/Game.cpp
         Core/Game.h
+        Core/Entity.cpp
+        Core/Entity.h
 )
 
 # Link SDL3 and SDL3_image (no OpenGL needed for SDL renderer)

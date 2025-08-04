@@ -104,6 +104,22 @@ void Player::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
 {
     MovePlayer(deltaTime);
 
+    Animate(deltaTime);
+}
+
+void Player::CombatUpdate(SDL_Renderer* renderer, float deltaTime)
+{
+    Animate(deltaTime);
+    currentFrame = 0;
+    isRunningSide = false;
+    isFacingUp = false;
+    isFacingDown = false;
+    isFacingLeft = false;
+    playerCurrentTexture = playerIdleSideTexture;
+}
+
+void Player::Animate(float deltaTime)
+{
     AnimationData& animData = animationInfo[playerCurrentTexture];
 
     frameTimer += deltaTime;
@@ -112,11 +128,6 @@ void Player::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
         frameTimer = 0.0f;
         currentFrame = (currentFrame + 1) % animData.totalFrames;
     }
-}
-
-void Player::CombatUpdate(SDL_Renderer* renderer, float deltaTime)
-{
-
 }
 
 bool Player::PreLoadAssets(SDL_Renderer* renderer)

@@ -34,6 +34,7 @@ public:
     void Render(SDL_Renderer* renderer);
     void FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime);
     void CombatUpdate(SDL_Renderer* renderer, float deltaTime);
+    void Animate(float deltaTime);
     bool PreLoadAssets(SDL_Renderer* renderer);
     SDL_Texture* playerCurrentTexture;
     // Debug getter functions
