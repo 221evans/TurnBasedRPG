@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr),
+Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), playerCurrentTexture(nullptr),
                    playerUpRunTexture(nullptr),playerDownRunTexture(nullptr), playerIdleDownTexture(nullptr),
                    playerIdleUpTexture(nullptr),flip(SDL_FLIP_NONE), health(100),isRunningSide(false), isDead(false),
                    isFacingUp(false), isFacingDown(false),currentFrame(0),
@@ -17,7 +17,6 @@ Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr)
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
     isFacingLeft = false;
-    currentTexture = nullptr;
 }
 
 
@@ -31,14 +30,14 @@ void Player::Render(SDL_Renderer* renderer)
 
     flip = SDL_FLIP_NONE;
 
-    if (currentTexture)
+    if (!playerCurrentTexture)
     {
-        currentTexture = playerIdleSideTexture;
+        playerCurrentTexture = playerIdleSideTexture;
     }
 
     if (isRunningSide)
     {
-        currentTexture = playerRunSideTexture;
+        playerCurrentTexture = playerRunSideTexture;
         if (isFacingLeft)
         {
             flip = SDL_FLIP_HORIZONTAL;
@@ -47,20 +46,20 @@ void Player::Render(SDL_Renderer* renderer)
 
     else if (isFacingUp)
     {
-        currentTexture = playerUpRunTexture;
+        playerCurrentTexture = playerUpRunTexture;
     }
     else if (isFacingDown)
     {
-        currentTexture = playerDownRunTexture;
+        playerCurrentTexture = playerDownRunTexture;
     }
     else
     {
-        currentTexture = playerIdleSideTexture;
+        playerCurrentTexture = playerIdleSideTexture;
     }
 
 
 
-    AnimationData& animData = animationInfo[currentTexture];
+    AnimationData& animData = animationInfo[playerCurrentTexture];
     srcRect.w = animData.frameWidth;
     srcRect.x = static_cast<float> (currentFrame) * srcRect.w;
 
@@ -68,7 +67,7 @@ void Player::Render(SDL_Renderer* renderer)
         currentFrame = 0;  // Clamp to valid range
     }
 
-    SDL_RenderTextureRotated(renderer,currentTexture,&srcRect,&destRect,0.0,nullptr,flip);
+    SDL_RenderTextureRotated(renderer,playerCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
 void Player::FreeRoamUpdate(float deltaTime)
@@ -86,7 +85,7 @@ void Player::CombatUpdate(float deltaTime)
     isFacingUp = false;
     isFacingDown = false;
     isFacingLeft = false;
-    currentTexture = playerIdleSideTexture;
+    playerCurrentTexture = playerIdleSideTexture;
 }
 
 
@@ -124,7 +123,7 @@ void Player::MovePlayer(float deltaTime)
 
 void Player::Animate(float deltaTime)
 {
-    AnimationData& animData = animationInfo[currentTexture];
+    AnimationData& animData = animationInfo[playerCurrentTexture];
 
     frameTimer += deltaTime;
     if (frameTimer >= (1.0f / animData.frameSpeed))
@@ -207,23 +206,23 @@ bool Player::GetIsRunningUp()
 
 std::string Player::GetCurrentTexture()
 {
-    if (currentTexture == playerIdleSideTexture)
+    if (playerCurrentTexture == playerIdleSideTexture)
     {
         return "Idle-Side";
     }
-    if (currentTexture == playerRunSideTexture)
+    if (playerCurrentTexture == playerRunSideTexture)
     {
         return "Run-Side";
     }
-    if (currentTexture == playerUpRunTexture)
+    if (playerCurrentTexture == playerUpRunTexture)
     {
         return "Run-Up";
     }
-    if (currentTexture == playerDownRunTexture)
+    if (playerCurrentTexture == playerDownRunTexture)
     {
         return "Run-Down";
     }
-    if (currentTexture)
+    if (!playerCurrentTexture)
     {
         return "No Texture";
     }
@@ -263,10 +262,10 @@ Player::~Player()
         SDL_DestroyTexture(playerIdleUpTexture);
         playerIdleUpTexture = nullptr;
     }
-    if (currentTexture != nullptr)
+    if (playerCurrentTexture != nullptr)
     {
-        SDL_DestroyTexture(currentTexture);
-        currentTexture = nullptr;
+        SDL_DestroyTexture(playerCurrentTexture);
+        playerCurrentTexture = nullptr;
     }
 }
 

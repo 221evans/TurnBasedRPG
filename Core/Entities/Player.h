@@ -32,7 +32,7 @@ public:
     void CombatUpdate(float deltaTime) override;
     void Animate(float deltaTime) override;
     bool PreLoadAssets(SDL_Renderer* renderer) override;
-
+    SDL_Texture* playerCurrentTexture;
 
     float SetPositionX(float x);
     float SetPositionY(float y);
