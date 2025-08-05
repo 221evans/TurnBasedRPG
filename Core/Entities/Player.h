@@ -17,10 +17,8 @@ public:
     int health;
     bool isRunningSide;
     bool isDead;
-    bool isFacingLeft;
     bool isFacingUp;
     bool isFacingDown;
-    float speed;
 
     // Animations
     int currentFrame;
@@ -34,7 +32,7 @@ public:
     void CombatUpdate(float deltaTime) override;
     void Animate(float deltaTime) override;
     bool PreLoadAssets(SDL_Renderer* renderer) override;
-    SDL_Texture* playerCurrentTexture;
+
 
     float SetPositionX(float x);
     float SetPositionY(float y);
@@ -49,7 +47,6 @@ private:
     std::map<SDL_Texture*, AnimationData> animationInfo;
     SDL_Texture* playerIdleSideTexture;
     SDL_Texture* playerRunSideTexture;
-
     SDL_Texture* playerUpRunTexture;
     SDL_Texture* playerDownRunTexture;
     SDL_Texture* playerIdleDownTexture;

@@ -6,16 +6,18 @@
 #include <iostream>
 
 
-Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), playerCurrentTexture(nullptr),
+Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr),
                    playerUpRunTexture(nullptr),playerDownRunTexture(nullptr), playerIdleDownTexture(nullptr),
                    playerIdleUpTexture(nullptr),flip(SDL_FLIP_NONE), health(100),isRunningSide(false), isDead(false),
-                   isFacingLeft(false),isFacingUp(false), isFacingDown(false), speed(100),currentFrame(0),
+                   isFacingUp(false), isFacingDown(false),currentFrame(0),
                    frameSpeed(8), frameCount(0), totalFrames(4),frameTimer(0.0f)
 {
     positionX = 250;
     positionY = 350;
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
+    isFacingLeft = false;
+    currentTexture = nullptr;
 }
 
 
@@ -29,14 +31,14 @@ void Player::Render(SDL_Renderer* renderer)
 
     flip = SDL_FLIP_NONE;
 
-    if (!playerCurrentTexture)
+    if (currentTexture)
     {
-        playerCurrentTexture = playerIdleSideTexture;
+        currentTexture = playerIdleSideTexture;
     }
 
     if (isRunningSide)
     {
-        playerCurrentTexture = playerRunSideTexture;
+        currentTexture = playerRunSideTexture;
         if (isFacingLeft)
         {
             flip = SDL_FLIP_HORIZONTAL;
@@ -45,28 +47,28 @@ void Player::Render(SDL_Renderer* renderer)
 
     else if (isFacingUp)
     {
-        playerCurrentTexture = playerUpRunTexture;
+        currentTexture = playerUpRunTexture;
     }
     else if (isFacingDown)
     {
-        playerCurrentTexture = playerDownRunTexture;
+        currentTexture = playerDownRunTexture;
     }
     else
     {
-        playerCurrentTexture = playerIdleSideTexture;
+        currentTexture = playerIdleSideTexture;
     }
 
 
 
-    AnimationData& animData = animationInfo[playerCurrentTexture];
+    AnimationData& animData = animationInfo[currentTexture];
     srcRect.w = animData.frameWidth;
-    srcRect.x = currentFrame * srcRect.w;
+    srcRect.x = static_cast<float> (currentFrame) * srcRect.w;
 
     if (currentFrame >= animData.totalFrames) {
         currentFrame = 0;  // Clamp to valid range
     }
 
-    SDL_RenderTextureRotated(renderer,playerCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
+    SDL_RenderTextureRotated(renderer,currentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
 void Player::FreeRoamUpdate(float deltaTime)
@@ -84,7 +86,7 @@ void Player::CombatUpdate(float deltaTime)
     isFacingUp = false;
     isFacingDown = false;
     isFacingLeft = false;
-    playerCurrentTexture = playerIdleSideTexture;
+    currentTexture = playerIdleSideTexture;
 }
 
 
@@ -122,7 +124,7 @@ void Player::MovePlayer(float deltaTime)
 
 void Player::Animate(float deltaTime)
 {
-    AnimationData& animData = animationInfo[playerCurrentTexture];
+    AnimationData& animData = animationInfo[currentTexture];
 
     frameTimer += deltaTime;
     if (frameTimer >= (1.0f / animData.frameSpeed))
@@ -205,23 +207,23 @@ bool Player::GetIsRunningUp()
 
 std::string Player::GetCurrentTexture()
 {
-    if (playerCurrentTexture == playerIdleSideTexture)
+    if (currentTexture == playerIdleSideTexture)
     {
         return "Idle-Side";
     }
-    if (playerCurrentTexture == playerRunSideTexture)
+    if (currentTexture == playerRunSideTexture)
     {
         return "Run-Side";
     }
-    if (playerCurrentTexture == playerUpRunTexture)
+    if (currentTexture == playerUpRunTexture)
     {
         return "Run-Up";
     }
-    if (playerCurrentTexture == playerDownRunTexture)
+    if (currentTexture == playerDownRunTexture)
     {
         return "Run-Down";
     }
-    if (!playerCurrentTexture)
+    if (currentTexture)
     {
         return "No Texture";
     }
@@ -261,10 +263,10 @@ Player::~Player()
         SDL_DestroyTexture(playerIdleUpTexture);
         playerIdleUpTexture = nullptr;
     }
-    if (playerCurrentTexture != nullptr)
+    if (currentTexture != nullptr)
     {
-        SDL_DestroyTexture(playerCurrentTexture);
-        playerCurrentTexture = nullptr;
+        SDL_DestroyTexture(currentTexture);
+        currentTexture = nullptr;
     }
 }
 

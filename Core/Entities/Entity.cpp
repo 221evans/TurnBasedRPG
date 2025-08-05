@@ -4,6 +4,9 @@
 
 #include "../Entities/Entity.h"
 
+#include <iostream>
+#include <__ostream/basic_ostream.h>
+
 
 Entity::Entity(): currentTexture(nullptr), isInCombat(false), positionX(0),
                   positionY(0), speed(100.0f),isWalking(false),
@@ -17,6 +20,11 @@ Entity::Entity(): currentTexture(nullptr), isInCombat(false), positionX(0),
 void Entity::Render(SDL_Renderer* renderer)
 {
     flip = SDL_FLIP_NONE;
+
+    if (!currentTexture)
+    {
+        std::cerr << "Current Texture is null" << std::endl;
+    }
 
     if (!isFacingLeft)
     {

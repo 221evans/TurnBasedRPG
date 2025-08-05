@@ -68,7 +68,7 @@ void Game::Debugging()
     ImGui::Text("Player Is Running Up : %s", isPlayerRunningUp ? "true" : "false");
     ImGui::Text("Player Current Texture : %s", playerCurrentTexture.c_str());
     ImGui::Text("Current Frame: %d", player.currentFrame);
-    ImGui::Text("Texture Ptr: %p", (void*)player.playerCurrentTexture);
+    ImGui::Text("Texture Ptr: %p", static_cast<void*>(player.currentTexture));
 
     ImGui::SeparatorText("Boar Info");
 
