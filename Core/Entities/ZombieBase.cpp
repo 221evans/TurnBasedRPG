@@ -14,6 +14,7 @@ ZombieBase::ZombieBase(): Entity(BaseOrientation::Right),speed(100.0f), frameTim
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
     currentTexture = nullptr;
+    // Orientation needs to be set depending on if the sprite is drawn left or right facing
     orientation = BaseOrientation::Right;
 }
 
