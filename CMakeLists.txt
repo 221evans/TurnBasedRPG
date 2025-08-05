@@ -12,16 +12,18 @@ find_package(SDL3_image REQUIRED)
 
 # Add your executable
 add_executable(TurnBasedRPG main.cpp
-        Core/Player.cpp
-        Core/Player.h
-        Core/Boar.cpp
-        Core/Boar.h
+        Core/Entities/Player.cpp
+        Core/Entities/Player.h
+        Core/Entities/Boar.cpp
+        Core/Entities/Boar.h
         Core/AnimationData.h
         Core/GameState.h
         Core/Game.cpp
         Core/Game.h
-        Core/Entity.cpp
-        Core/Entity.h
+        Core/Entities/Entity.cpp
+        Core/Entities/Entity.h
+        Core/Entities/ZombieBase.cpp
+        Core/Entities/ZombieBase.h
 )
 
 # Link SDL3 and SDL3_image (no OpenGL needed for SDL renderer)

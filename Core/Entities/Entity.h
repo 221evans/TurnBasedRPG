@@ -14,22 +14,29 @@ public:
     virtual void Init(SDL_Renderer* renderer) = 0;
     virtual bool PreLoadAssets(SDL_Renderer* renderer) = 0;
 
-    virtual void Render(SDL_Renderer* renderer) = 0;
+    virtual void Render(SDL_Renderer* renderer);
     virtual ~Entity() = default;
     virtual void FreeRoamUpdate(float deltaTime) = 0;
     virtual void CombatUpdate(float deltaTime) = 0;
+    virtual void Animate(float deltaTime) = 0;
+    virtual void Move(float deltaTime);
     float GetPositionX();
     float GetPositionY();
     SDL_Texture* currentTexture;
+    bool isInCombat;
 
 protected:
     float positionX, positionY;
     float speed;
-    bool isInCombat;
+
     bool isWalking;
+    bool isFacingLeft;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};
 
+    SDL_Texture* walkTexture;
+    SDL_Texture* idleTexture;
+    SDL_FlipMode flip;
 
 };
 

@@ -5,7 +5,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <map>
-#include "AnimationData.h"
+#include "../AnimationData.h"
 #include "Entity.h"
 
 
@@ -21,8 +21,7 @@ public:
     bool isFacingUp;
     bool isFacingDown;
     float speed;
-    float positionX;
-    float positionY;
+
     // Animations
     int currentFrame;
     int frameSpeed;
@@ -33,10 +32,9 @@ public:
     void Render(SDL_Renderer* renderer) override;
     void FreeRoamUpdate(float deltaTime) override;
     void CombatUpdate(float deltaTime) override;
-    void Animate(float deltaTime);
+    void Animate(float deltaTime) override;
     bool PreLoadAssets(SDL_Renderer* renderer) override;
     SDL_Texture* playerCurrentTexture;
-
 
     float SetPositionX(float x);
     float SetPositionY(float y);
@@ -49,8 +47,6 @@ public:
 private:
     // Player Texture handling
     std::map<SDL_Texture*, AnimationData> animationInfo;
-    SDL_FRect destRect{};
-    SDL_FRect srcRect{};
     SDL_Texture* playerIdleSideTexture;
     SDL_Texture* playerRunSideTexture;
 

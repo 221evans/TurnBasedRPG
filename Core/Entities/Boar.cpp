@@ -2,19 +2,15 @@
 // Created by Jason Evans on 13/07/2025.
 //
 
-#include "Boar.h"
+#include "../Entities/Boar.h"
 #include <iostream>
 
 
-Boar::Boar(): isWalking(false), isFacingLeft(true), health(100), damage(10), speed(100.0f),
-              frameTimer(0.0f),
-              currentFrame(0), isInCombat(false),
-              boarIdleTexture(nullptr),boarWalkTexture(nullptr),
-              boarAttackTexture(nullptr), flip(SDL_FLIP_NONE)
+Boar::Boar(): health(100), damage(10), speed(100.0f),frameTimer(0.0f),
+              currentFrame(0),boarAttackTexture(nullptr)
 {
     positionX = 350;
     positionY = 250;
-
     destRect = {positionX, positionY, 80, 64};
     srcRect = {0, 0, 80, 64};
     currentTexture = nullptr;
@@ -27,16 +23,16 @@ void Boar::Init(SDL_Renderer* renderer)
 
 bool Boar::PreLoadAssets(SDL_Renderer* renderer)
 {
-    boarIdleTexture = IMG_LoadTexture(renderer, "Assets/Enemy/Boar/Idle-Sheet.png");
-    boarWalkTexture = IMG_LoadTexture(renderer,"Assets/Enemy/Boar/Walk-Sheet.png");
+    idleTexture = IMG_LoadTexture(renderer, "Assets/Enemy/Boar/Idle-Sheet.png");
+    walkTexture = IMG_LoadTexture(renderer,"Assets/Enemy/Boar/Walk-Sheet.png");
     boarAttackTexture = IMG_LoadTexture(renderer, "Assets/Enemy/Boar/Attack-Sheet.png");
 
-    if (!boarIdleTexture)
+    if (!idleTexture)
     {
         std::cout << "Boar Idle Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
     }
-    if (!boarWalkTexture)
+    if (!walkTexture)
     {
         std::cout << "Boar Walk Texture could not be loaded! " << SDL_GetError() << std::endl;
         return false;
@@ -47,66 +43,10 @@ bool Boar::PreLoadAssets(SDL_Renderer* renderer)
         return false;
     }
 
-    animationInfo[boarIdleTexture] = {4, 96, 4};
-    animationInfo[boarWalkTexture] = {6, 80, 8};
+    animationInfo[idleTexture] = {4, 96, 4};
+    animationInfo[walkTexture] = {6, 80, 8};
 
     return true;
-}
-
-void Boar::Render(SDL_Renderer* renderer)
-{
-    flip = SDL_FLIP_NONE;
-
-    if (!isFacingLeft)
-    {
-        flip = SDL_FLIP_HORIZONTAL;
-    }
-
-    if (isWalking)
-    {
-        currentTexture = boarWalkTexture;
-    }
-    else if (isInCombat)
-    {
-        currentTexture = boarIdleTexture;
-        flip = SDL_FLIP_NONE;
-    }
-
-    SDL_RenderTextureRotated(renderer,currentTexture,&srcRect,&destRect,0.0,nullptr,flip);
-}
-
-
-
-void Boar::MoveBoar(float deltaTime)
-{
-
-    if (!isInCombat)
-    {
-        currentTexture = boarWalkTexture;
-        isWalking = true;
-
-        destRect.x += -speed * deltaTime;
-        if (destRect.x >= 600)
-        {
-            isFacingLeft = true;
-            destRect.x = 600;
-            speed = -speed;
-        }
-        if (destRect.x <= 10)
-        {
-            isFacingLeft = false;
-            destRect.x = 10;
-            speed = -speed;
-        }
-
-
-    }
-    else
-    {
-        isWalking = false;
-        currentTexture = boarIdleTexture;
-    }
-
 }
 
 void Boar::Animate(float deltaTime)
@@ -125,7 +65,7 @@ void Boar::Animate(float deltaTime)
 }
 void Boar::FreeRoamUpdate(float deltaTime)
 {
-    MoveBoar(deltaTime);
+    Move(deltaTime);
     Animate(deltaTime);
 }
 
@@ -141,31 +81,31 @@ void Boar::CombatUpdate(float deltaTime)
 
 
 
-float Boar::SetPositionX(float x)
+float Boar::SetPositionX(const float x)
 {
     destRect.x = x;
     return positionX;
 }
 
-float Boar::SetPositionY(float y)
+float Boar::SetPositionY(const float y)
 {
     positionY = y;
     destRect.y = y;
     return positionY;
 }
 
-bool Boar::GetIsWalking()
+bool Boar::GetIsWalking() const
 {
     return isWalking;
 }
 
-std::string Boar::GetCurrentTexture()
+std::string Boar::GetCurrentTexture() const
 {
-    if (currentTexture == boarIdleTexture)
+    if (currentTexture == idleTexture)
     {
         return "Idle";
     }
-    if (currentTexture == boarWalkTexture)
+    if (currentTexture == walkTexture)
     {
         return "Walk";
     }
@@ -179,15 +119,15 @@ std::string Boar::GetCurrentTexture()
 
 Boar::~Boar()
 {
-    if (boarIdleTexture != nullptr)
+    if (idleTexture != nullptr)
     {
-        SDL_DestroyTexture(boarIdleTexture);
-        boarIdleTexture = nullptr;
+        SDL_DestroyTexture(idleTexture);
+        idleTexture = nullptr;
     }
-    if (boarWalkTexture != nullptr)
+    if (walkTexture != nullptr)
     {
-        SDL_DestroyTexture(boarWalkTexture);
-        boarWalkTexture = nullptr;
+        SDL_DestroyTexture(walkTexture);
+        walkTexture = nullptr;
     }
     if (currentTexture != nullptr)
     {

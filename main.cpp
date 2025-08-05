@@ -5,7 +5,7 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <unistd.h>
-#include "Core/Boar.h"
+#include "Core/Entities/Boar.h"
 #include "Core/Game.h"
 // Main Function
 int main()

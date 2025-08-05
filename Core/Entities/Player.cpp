@@ -2,16 +2,18 @@
 // Created by Jason Evans on 07/07/2025.
 //
 
-#include "Player.h"
+#include "../Entities/Player.h"
 #include <iostream>
 
 
 Player::Player() : playerIdleSideTexture(nullptr), playerRunSideTexture(nullptr), playerCurrentTexture(nullptr),
                    playerUpRunTexture(nullptr),playerDownRunTexture(nullptr), playerIdleDownTexture(nullptr),
                    playerIdleUpTexture(nullptr),flip(SDL_FLIP_NONE), health(100),isRunningSide(false), isDead(false),
-                   isFacingLeft(false),isFacingUp(false), isFacingDown(false), speed(100), positionX(250),
-                   positionY(350), currentFrame(0), frameSpeed(8), frameCount(0), totalFrames(4),frameTimer(0.0f)
+                   isFacingLeft(false),isFacingUp(false), isFacingDown(false), speed(100),currentFrame(0),
+                   frameSpeed(8), frameCount(0), totalFrames(4),frameTimer(0.0f)
 {
+    positionX = 250;
+    positionY = 350;
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
 }

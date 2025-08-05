@@ -4,8 +4,8 @@
 
 #include "Game.h"
 #include "imgui.h"
-#include "player.h"
-#include "boar.h"
+#include "Entities/Player.h"
+#include "Entities/Boar.h"
 
 Game::Game(): gameState(GameState::FreeRoam)
 {

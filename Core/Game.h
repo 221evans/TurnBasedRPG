@@ -4,9 +4,9 @@
 
 #ifndef GAME_H
 #define GAME_H
-#include "Boar.h"
+#include "Entities/Boar.h"
 #include "GameState.h"
-#include "Player.h"
+#include "Entities/Player.h"
 
 
 class Game {
