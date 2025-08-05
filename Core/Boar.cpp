@@ -138,17 +138,8 @@ void Boar::CombatUpdate(float deltaTime)
     Animate(deltaTime);
 }
 
-float Boar::GetPositionX()
-{
-    positionX = destRect.x;
-    return positionX;
-}
 
-float Boar::GetPositionY()
-{
-    positionY = destRect.y;
-    return positionY;
-}
+
 
 float Boar::SetPositionX(float x)
 {

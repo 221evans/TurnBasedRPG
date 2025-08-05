@@ -5,8 +5,6 @@
 #ifndef BOAR_H
 #define BOAR_H
 
-#include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
 #include <map>
 #include "AnimationData.h"
 #include "Entity.h"
@@ -35,9 +33,7 @@ public:
     void FreeRoamUpdate(float deltaTime) override;
     void CombatUpdate(float deltaTime) override;
     void Animate(float deltaTime);
-    // Debug getter functions
-    float GetPositionX();
-    float GetPositionY();
+
     float SetPositionX(float x);
     float SetPositionY(float y);
     bool GetIsWalking();
@@ -49,8 +45,7 @@ public:
 private:
     // Boar Texture handling
     SDL_Texture* boarAttackTexture;
-    SDL_FRect destRect{};
-    SDL_FRect srcRect{};
+
     SDL_FlipMode flip;
 };
 

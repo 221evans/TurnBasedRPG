@@ -27,7 +27,8 @@ protected:
     float speed;
     bool isInCombat;
     bool isWalking;
-
+    SDL_FRect destRect{};
+    SDL_FRect srcRect{};
 
 
 };

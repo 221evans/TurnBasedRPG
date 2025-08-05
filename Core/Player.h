@@ -4,13 +4,12 @@
 
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
 #include <map>
 #include "AnimationData.h"
+#include "Entity.h"
 
 
-class Player {
+class Player : public Entity {
 
 public:
 
@@ -30,25 +29,23 @@ public:
     int frameCount;
     int totalFrames;
     float frameTimer;
-    void Init(SDL_Renderer* renderer);
-    void Render(SDL_Renderer* renderer);
-    void FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime);
-    void CombatUpdate(SDL_Renderer* renderer, float deltaTime);
+    void Init(SDL_Renderer* renderer) override;
+    void Render(SDL_Renderer* renderer) override;
+    void FreeRoamUpdate(float deltaTime) override;
+    void CombatUpdate(float deltaTime) override;
     void Animate(float deltaTime);
-    bool PreLoadAssets(SDL_Renderer* renderer);
+    bool PreLoadAssets(SDL_Renderer* renderer) override;
     SDL_Texture* playerCurrentTexture;
-    // Debug getter functions
-    float GetPositionX();
-    float GetPositionY();
+
+
     float SetPositionX(float x);
     float SetPositionY(float y);
-    bool GetIsWalking();
     bool GetIsRunningSide();
     bool GetIsRunningUp();
     std::string GetCurrentTexture();
 
 
-    ~Player();
+    ~Player() override;
 private:
     // Player Texture handling
     std::map<SDL_Texture*, AnimationData> animationInfo;

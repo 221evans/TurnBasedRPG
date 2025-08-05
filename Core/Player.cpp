@@ -67,6 +67,24 @@ void Player::Render(SDL_Renderer* renderer)
     SDL_RenderTextureRotated(renderer,playerCurrentTexture,&srcRect,&destRect,0.0,nullptr,flip);
 }
 
+void Player::FreeRoamUpdate(float deltaTime)
+{
+    MovePlayer(deltaTime);
+
+    Animate(deltaTime);
+}
+
+void Player::CombatUpdate(float deltaTime)
+{
+    Animate(deltaTime);
+    currentFrame = 0;
+    isRunningSide = false;
+    isFacingUp = false;
+    isFacingDown = false;
+    isFacingLeft = false;
+    playerCurrentTexture = playerIdleSideTexture;
+}
+
 
 void Player::MovePlayer(float deltaTime)
 {
@@ -98,24 +116,6 @@ void Player::MovePlayer(float deltaTime)
         destRect.x += speed * deltaTime;
         isRunningSide = true;
     }
-}
-
-void Player::FreeRoamUpdate(SDL_Renderer* renderer, float deltaTime)
-{
-    MovePlayer(deltaTime);
-
-    Animate(deltaTime);
-}
-
-void Player::CombatUpdate(SDL_Renderer* renderer, float deltaTime)
-{
-    Animate(deltaTime);
-    currentFrame = 0;
-    isRunningSide = false;
-    isFacingUp = false;
-    isFacingDown = false;
-    isFacingLeft = false;
-    playerCurrentTexture = playerIdleSideTexture;
 }
 
 void Player::Animate(float deltaTime)
@@ -178,17 +178,6 @@ bool Player::PreLoadAssets(SDL_Renderer* renderer)
     return true;
 }
 
-float Player::GetPositionX()
-{
-    positionX = destRect.x;
-    return positionX;
-}
-
-float Player::GetPositionY()
-{
-    positionY = destRect.y;
-    return positionY;
-}
 
 float Player::SetPositionX(float x)
 {

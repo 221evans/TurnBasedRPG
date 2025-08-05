@@ -29,7 +29,7 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     else if (gameState == GameState::FreeRoam)
     {
         boar.isInCombat = false;
-        player.FreeRoamUpdate(renderer, deltaTime);
+        player.FreeRoamUpdate(deltaTime);
         boar.FreeRoamUpdate(deltaTime);
     }
     else if (gameState == GameState::Combat)
@@ -39,7 +39,7 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
         boar.SetPositionX(350);
         boar.SetPositionY(250);
         boar.CombatUpdate(deltaTime);
-        player.CombatUpdate(renderer, deltaTime);
+        player.CombatUpdate(deltaTime);
         player.SetPositionX(150);
         player.SetPositionY(250);
     }
