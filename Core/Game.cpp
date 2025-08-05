@@ -4,19 +4,19 @@
 
 #include "Game.h"
 #include "imgui.h"
-#include "Entities/Player.h"
-#include "Entities/Boar.h"
+
+
 
 Game::Game(): gameState(GameState::FreeRoam)
 {
-    Boar boar;
-    Player player;
+
 }
 
 void Game::Init(SDL_Renderer* renderer)
 {
     player.Init(renderer);
     boar.Init(renderer);
+    zombieBase.Init(renderer);
 }
 
 void Game::Update(SDL_Renderer* renderer, float deltaTime)
@@ -29,16 +29,20 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     else if (gameState == GameState::FreeRoam)
     {
         boar.isInCombat = false;
+        zombieBase.isInCombat = false;
         player.FreeRoamUpdate(deltaTime);
         boar.FreeRoamUpdate(deltaTime);
+        zombieBase.FreeRoamUpdate(deltaTime);
     }
     else if (gameState == GameState::Combat)
     {
+        zombieBase.isInCombat = true;
 
         boar.isInCombat = true;
         boar.SetPositionX(350);
         boar.SetPositionY(250);
         boar.CombatUpdate(deltaTime);
+
         player.CombatUpdate(deltaTime);
         player.SetPositionX(150);
         player.SetPositionY(250);
@@ -50,6 +54,8 @@ void Game::Render(SDL_Renderer* renderer)
 {
     player.Render(renderer);
     boar.Render(renderer);
+    zombieBase.Render(renderer);
+
 }
 
 

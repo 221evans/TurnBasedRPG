@@ -8,14 +8,15 @@
 #include <__ostream/basic_ostream.h>
 
 
-Entity::Entity(): currentTexture(nullptr), isInCombat(false), positionX(0),
-                  positionY(0), speed(100.0f),isWalking(false),
-                  isFacingLeft(true), walkTexture(nullptr),
-                  idleTexture(nullptr), flip(SDL_FLIP_NONE)
+Entity::Entity(BaseOrientation orientation): currentTexture(nullptr), isInCombat(false), positionX(0),
+                                             positionY(0), speed(100.0f), isWalking(false),
+                                             isFacingLeft(true), orientation(BaseOrientation::Left), walkTexture(nullptr),
+                                             idleTexture(nullptr), flip(SDL_FLIP_NONE)
 {
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
 }
+
 
 void Entity::Render(SDL_Renderer* renderer)
 {
@@ -26,11 +27,20 @@ void Entity::Render(SDL_Renderer* renderer)
         std::cerr << "Current Texture is null" << std::endl;
     }
 
-    if (!isFacingLeft)
+    if (orientation == BaseOrientation::Left)
     {
-        flip = SDL_FLIP_HORIZONTAL;
+        if (!isFacingLeft)
+        {
+            flip = SDL_FLIP_HORIZONTAL;
+        }
     }
-
+    else if (orientation == BaseOrientation::Right)
+    {
+        if (isFacingLeft)
+        {
+            flip = SDL_FLIP_HORIZONTAL;
+        }
+    }
     if (isWalking)
     {
         currentTexture = walkTexture;

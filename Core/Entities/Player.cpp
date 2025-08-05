@@ -60,7 +60,7 @@ void Player::Render(SDL_Renderer* renderer)
 
 
     AnimationData& animData = animationInfo[playerCurrentTexture];
-    srcRect.w = animData.frameWidth;
+    srcRect.w = static_cast<float>(animData.frameWidth);
     srcRect.x = static_cast<float> (currentFrame) * srcRect.w;
 
     if (currentFrame >= animData.totalFrames) {

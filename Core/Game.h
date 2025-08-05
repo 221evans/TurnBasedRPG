@@ -7,6 +7,7 @@
 #include "Entities/Boar.h"
 #include "GameState.h"
 #include "Entities/Player.h"
+#include "Entities/ZombieBase.h"
 
 
 class Game {
@@ -14,6 +15,7 @@ public:
     Game();
     Player player;
     Boar boar;
+    ZombieBase zombieBase;
     GameState gameState;
     void Init(SDL_Renderer* renderer);
     void Update(SDL_Renderer* renderer, float deltaTime);

@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-Boar::Boar(): health(100), damage(10), speed(100.0f),frameTimer(0.0f),
+Boar::Boar(): Entity(BaseOrientation::Left),health(100), damage(10), speed(100.0f),frameTimer(0.0f),
               currentFrame(0),boarAttackTexture(nullptr)
 {
     positionX = 350;

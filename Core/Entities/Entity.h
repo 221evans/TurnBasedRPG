@@ -6,11 +6,15 @@
 #define ENTITY_H
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
-
+enum class BaseOrientation {
+    Left,
+    Right
+};
 
 class Entity {
 public:
-    Entity();
+    Entity(BaseOrientation orientation = BaseOrientation::Left);
+
     virtual void Init(SDL_Renderer* renderer) = 0;
     virtual bool PreLoadAssets(SDL_Renderer* renderer) = 0;
 
@@ -31,12 +35,15 @@ protected:
 
     bool isWalking;
     bool isFacingLeft;
+    BaseOrientation orientation;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};
 
     SDL_Texture* walkTexture;
     SDL_Texture* idleTexture;
     SDL_FlipMode flip;
+
+
 
 };
 
