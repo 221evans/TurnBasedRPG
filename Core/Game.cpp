@@ -3,13 +3,16 @@
 //
 
 #include "Game.h"
+
+#include <iostream>
+#include <__ostream/basic_ostream.h>
+
 #include "imgui.h"
 
 
 
-Game::Game(): gameState(GameState::FreeRoam)
+Game::Game(): gameState(GameState::FreeRoam), isPlayerTurn(true), isEnemyTurn(false), attackKeyPressed(false)
 {
-
 }
 
 void Game::Init(SDL_Renderer* renderer)
@@ -24,7 +27,6 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     if (gameState == GameState::Menu)
     {
         // Menu logic to go here
-
     }
     else if (gameState == GameState::FreeRoam)
     {
@@ -36,26 +38,47 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     }
     else if (gameState == GameState::Combat)
     {
-        zombieBase.isInCombat = true;
-
-        boar.isInCombat = true;
-        boar.SetPositionX(350);
-        boar.SetPositionY(250);
-        boar.CombatUpdate(deltaTime);
-
-        player.CombatUpdate(deltaTime);
-        player.SetPositionX(150);
-        player.SetPositionY(250);
+        HandleCombat(deltaTime);
     }
 
 }
 
 void Game::Render(SDL_Renderer* renderer)
 {
+    zombieBase.isInCombat = true;
     player.Render(renderer);
     boar.Render(renderer);
     zombieBase.Render(renderer);
 
+}
+
+void Game::HandleCombat(float deltaTime)
+{
+    boar.isInCombat = true;
+    boar.SetPositionX(350);
+    boar.SetPositionY(250);
+    boar.CombatUpdate(deltaTime);
+
+    player.CombatUpdate(deltaTime);
+    player.SetPositionX(150);
+    player.SetPositionY(250);
+
+    zombieBase.isInCombat = true;
+
+    if (attackKeyPressed && isPlayerTurn)
+    {
+        std::cout << "The Player Attacks" << std::endl;
+        isPlayerTurn = false;
+        isEnemyTurn = true;
+        attackKeyPressed = false;
+    }
+
+    if (isEnemyTurn)
+    {
+        std::cout << "The Enemy Attacks!" << std::endl;
+        isEnemyTurn = false;
+        isPlayerTurn = true;
+    }
 }
 
 
@@ -86,6 +109,11 @@ void Game::Debugging()
     ImGui::Text("Boar Is Walking: %s", isBoarWalking ? "true" : "false");
     ImGui::Text("Boar Current Texture: %s", boar.GetCurrentTexture().c_str());
     ImGui::SeparatorText("Controls");
+
+    ImGui::SeparatorText("Game State");
+    ImGui::Text("Game State: %s", gameState == GameState::FreeRoam ? "Free Roam" : "Combat");
+    ImGui::Text("Player Turn: %s", isPlayerTurn ? "true" : "false");
+    ImGui::Text("Enemy Turn: %s", isEnemyTurn ? "true" : "false");
     if (ImGui::Button("In Combat"))
     {
         gameState = GameState::Combat;

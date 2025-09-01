@@ -20,10 +20,15 @@ public:
     void Init(SDL_Renderer* renderer);
     void Update(SDL_Renderer* renderer, float deltaTime);
     void Render(SDL_Renderer* renderer);
+    void HandleCombat(float deltaTime);
     void Debugging();
+    void SetAttackKeyPressed() {attackKeyPressed = true;}
+    bool isPlayerTurn;
+    bool isEnemyTurn;
+
 
 private:
-
+    bool attackKeyPressed;
 };
 
 

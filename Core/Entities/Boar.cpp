@@ -14,6 +14,8 @@ Boar::Boar(): Entity(BaseOrientation::Left),health(100), damage(10), speed(100.0
     destRect = {positionX, positionY, 80, 64};
     srcRect = {0, 0, 80, 64};
     currentTexture = nullptr;
+    // Orientation needs to be set depending on if the sprite is drawn left or right facing
+    orientation = BaseOrientation::Left;
 }
 
 void Boar::Init(SDL_Renderer* renderer)

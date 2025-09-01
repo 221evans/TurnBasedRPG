@@ -13,11 +13,9 @@ enum class BaseOrientation {
 
 class Entity {
 public:
-    Entity(BaseOrientation orientation = BaseOrientation::Left);
-
+    explicit Entity(BaseOrientation orientation = BaseOrientation::Left);
     virtual void Init(SDL_Renderer* renderer) = 0;
     virtual bool PreLoadAssets(SDL_Renderer* renderer) = 0;
-
     virtual void Render(SDL_Renderer* renderer);
     virtual ~Entity() = default;
     virtual void FreeRoamUpdate(float deltaTime) = 0;
@@ -32,13 +30,11 @@ public:
 protected:
     float positionX, positionY;
     float speed;
-
     bool isWalking;
     bool isFacingLeft;
     BaseOrientation orientation;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};
-
     SDL_Texture* walkTexture;
     SDL_Texture* idleTexture;
     SDL_FlipMode flip;
