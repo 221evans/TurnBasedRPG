@@ -6,6 +6,7 @@
 #define GAME_H
 #include "Entities/Boar.h"
 #include "GameState.h"
+#include "Entities/EnemySpawner.h"
 #include "Entities/Player.h"
 #include "Entities/ZombieBase.h"
 
@@ -16,6 +17,8 @@ public:
     Player player;
     Boar boar;
     ZombieBase zombieBase;
+    std::vector<Entity*> enemies;
+    EnemySpawner enemySpawner;
     GameState gameState;
     void Init(SDL_Renderer* renderer);
     void Update(SDL_Renderer* renderer, float deltaTime);
@@ -25,6 +28,8 @@ public:
     void SetAttackKeyPressed() {attackKeyPressed = true;}
     bool isPlayerTurn;
     bool isEnemyTurn;
+    float enemyX;
+    float enemyY;
 
 
 private:

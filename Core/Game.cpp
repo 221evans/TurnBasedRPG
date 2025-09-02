@@ -6,20 +6,27 @@
 
 #include <iostream>
 #include <__ostream/basic_ostream.h>
-
 #include "imgui.h"
 
 
 
-Game::Game(): gameState(GameState::FreeRoam), isPlayerTurn(true), isEnemyTurn(false), attackKeyPressed(false)
-{
-}
+Game::Game(): gameState(GameState::FreeRoam), isPlayerTurn(true), isEnemyTurn(false),
+attackKeyPressed(false), enemyX(0), enemyY(0){}
 
 void Game::Init(SDL_Renderer* renderer)
 {
     player.Init(renderer);
-    boar.Init(renderer);
-    zombieBase.Init(renderer);
+
+    Entity* newBoar = enemySpawner.SpawnEnemy(EntityType::Boar);
+
+    newBoar->Init(renderer);
+    enemies.push_back(newBoar);
+
+    for (Entity* enemy : enemies)
+    {
+        enemy->SetPositionX(350);
+        enemy->SetPositionY(250);
+    }
 }
 
 void Game::Update(SDL_Renderer* renderer, float deltaTime)
@@ -30,11 +37,15 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     }
     else if (gameState == GameState::FreeRoam)
     {
-        boar.isInCombat = false;
-        zombieBase.isInCombat = false;
         player.FreeRoamUpdate(deltaTime);
-        boar.FreeRoamUpdate(deltaTime);
-        zombieBase.FreeRoamUpdate(deltaTime);
+        for (Entity* enemy : enemies)
+        {
+            enemy->FreeRoamUpdate(deltaTime);
+            enemy->isInCombat = false;
+            enemyX = enemy->GetPositionX();
+            enemyY = enemy->GetPositionY();
+        }
+
     }
     else if (gameState == GameState::Combat)
     {
@@ -45,25 +56,35 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
 
 void Game::Render(SDL_Renderer* renderer)
 {
-    zombieBase.isInCombat = true;
     player.Render(renderer);
-    boar.Render(renderer);
-    zombieBase.Render(renderer);
+    for (Entity* enemy : enemies)
+    {
+        enemy->Render(renderer);
+    }
+
 
 }
 
 void Game::HandleCombat(float deltaTime)
 {
-    boar.isInCombat = true;
-    boar.SetPositionX(350);
-    boar.SetPositionY(250);
-    boar.CombatUpdate(deltaTime);
+
+    for (Entity* enemy : enemies)
+    {
+        enemy->isInCombat = true;
+        enemy->CombatUpdate(deltaTime);
+        enemy->SetPositionX(350);
+        enemy->SetPositionY(250);
+        enemyX = enemy->GetPositionX();
+        enemyY = enemy->GetPositionY();
+    }
+
+
 
     player.CombatUpdate(deltaTime);
     player.SetPositionX(150);
     player.SetPositionY(250);
 
-    zombieBase.isInCombat = true;
+
 
     if (attackKeyPressed && isPlayerTurn)
     {
@@ -101,11 +122,10 @@ void Game::Debugging()
 
     ImGui::SeparatorText("Boar Info");
 
-    float boarX = boar.GetPositionX();
-    float boarY = boar.GetPositionY();
+
     bool isBoarWalking = boar.GetIsWalking();
-    ImGui::Text("Boar X: %f", boarX);
-    ImGui::Text("Boar Y: %f", boarY);
+    ImGui::Text("Boar X: %f", enemyX );
+    ImGui::Text("Boar Y: %f", enemyY);
     ImGui::Text("Boar Is Walking: %s", isBoarWalking ? "true" : "false");
     ImGui::Text("Boar Current Texture: %s", boar.GetCurrentTexture().c_str());
     ImGui::SeparatorText("Controls");
@@ -127,3 +147,4 @@ void Game::Debugging()
         gameState = GameState::Menu;
     }
 }
+

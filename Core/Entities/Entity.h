@@ -24,6 +24,8 @@ public:
     virtual void Move(float deltaTime);
     float GetPositionX();
     float GetPositionY();
+    virtual float SetPositionX(float x);
+    virtual float SetPositionY(float y);
     SDL_Texture* currentTexture;
     bool isInCombat;
 

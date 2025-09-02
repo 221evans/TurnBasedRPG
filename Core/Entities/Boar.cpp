@@ -80,9 +80,6 @@ void Boar::CombatUpdate(float deltaTime)
     Animate(deltaTime);
 }
 
-
-
-
 float Boar::SetPositionX(const float x)
 {
     destRect.x = x;

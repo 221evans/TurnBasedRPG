@@ -95,3 +95,16 @@ float Entity::GetPositionY()
     positionY = destRect.y;
     return positionY;
 }
+
+float Entity::SetPositionX(float x)
+{
+    destRect.x = x;
+    return positionX;
+}
+float Entity::SetPositionY(float y)
+{
+    destRect.y = y;
+    return positionY;
+}
+
+

@@ -24,6 +24,8 @@ add_executable(TurnBasedRPG main.cpp
         Core/Entities/Entity.h
         Core/Entities/ZombieBase.cpp
         Core/Entities/ZombieBase.h
+        Core/Entities/EnemySpawner.cpp
+        Core/Entities/EnemySpawner.h
 )
 
 # Link SDL3 and SDL3_image (no OpenGL needed for SDL renderer)
