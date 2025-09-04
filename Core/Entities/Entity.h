@@ -26,6 +26,8 @@ public:
     float GetPositionY();
     virtual float SetPositionX(float x);
     virtual float SetPositionY(float y);
+    virtual int TakeDamage(int damage, int health);
+
     SDL_Texture* currentTexture;
     bool isInCombat;
 
@@ -34,15 +36,13 @@ protected:
     float speed;
     bool isWalking;
     bool isFacingLeft;
+
     BaseOrientation orientation;
     SDL_FRect destRect{};
     SDL_FRect srcRect{};
     SDL_Texture* walkTexture;
     SDL_Texture* idleTexture;
     SDL_FlipMode flip;
-
-
-
 };
 
 

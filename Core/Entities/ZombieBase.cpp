@@ -7,14 +7,14 @@
 #include <iostream>
 #include <__ostream/basic_ostream.h>
 
-ZombieBase::ZombieBase(): Entity(BaseOrientation::Right),speed(100.0f), frameTimer(0.0f), currentFrame(0)
+ZombieBase::ZombieBase(): Entity(BaseOrientation::Right),speed(100.0f), frameTimer(0.0f), currentFrame(0), health(100)
 {
     positionX = 550;
     positionY = 250;
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
     currentTexture = nullptr;
-    // Orientation needs to be set depending on if the sprite is drawn left or right facing
+    // Orientation needs to be set depending on if the sprite is drawn facing left or right facing
     orientation = BaseOrientation::Right;
 }
 
@@ -57,6 +57,9 @@ void ZombieBase::CombatUpdate(float deltaTime)
     currentFrame = 0;
     isWalking = false;
     isInCombat = true;
+    SetPositionX(350);
+    SetPositionY(400);
+    Animate(deltaTime);
 }
 
 void ZombieBase::Animate(float deltaTime)

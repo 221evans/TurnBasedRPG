@@ -108,3 +108,11 @@ float Entity::SetPositionY(float y)
 }
 
 
+// Work in progress
+int Entity::TakeDamage(int damage, int health)
+{
+    health -= damage;
+    return health;
+}
+
+

@@ -3,7 +3,6 @@
 //
 
 #include "Game.h"
-
 #include <iostream>
 #include <__ostream/basic_ostream.h>
 #include "imgui.h"
@@ -17,16 +16,25 @@ void Game::Init(SDL_Renderer* renderer)
 {
     player.Init(renderer);
 
-    Entity* newBoar = enemySpawner.SpawnEnemy(EntityType::Boar);
+    auto newBoar = enemySpawner.SpawnEnemy(EntityType::Boar);
+
+    auto zombie = enemySpawner.SpawnEnemy(EntityType::ZombieBase);
 
     newBoar->Init(renderer);
-    enemies.push_back(newBoar);
 
-    for (Entity* enemy : enemies)
-    {
-        enemy->SetPositionX(350);
-        enemy->SetPositionY(250);
-    }
+    zombie->Init(renderer);
+
+    zombie->SetPositionX(200);
+    zombie->SetPositionY(250);
+
+    enemies.push_back(std::move(newBoar));
+
+    enemies.push_back(std::move(zombie));
+
+
+    std::cout << "Enemies count: " << enemies.size() << std::endl;
+
+
 }
 
 void Game::Update(SDL_Renderer* renderer, float deltaTime)
@@ -38,7 +46,7 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     else if (gameState == GameState::FreeRoam)
     {
         player.FreeRoamUpdate(deltaTime);
-        for (Entity* enemy : enemies)
+        for (auto& enemy : enemies)
         {
             enemy->FreeRoamUpdate(deltaTime);
             enemy->isInCombat = false;
@@ -57,23 +65,20 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
 void Game::Render(SDL_Renderer* renderer)
 {
     player.Render(renderer);
-    for (Entity* enemy : enemies)
+    for (auto& enemy : enemies)
     {
         enemy->Render(renderer);
     }
-
-
 }
 
 void Game::HandleCombat(float deltaTime)
 {
 
-    for (Entity* enemy : enemies)
+    for (auto& enemy : enemies)
     {
         enemy->isInCombat = true;
         enemy->CombatUpdate(deltaTime);
-        enemy->SetPositionX(350);
-        enemy->SetPositionY(250);
+        // Boar tracking. Will be removed eventually as setting positions is handled by the subclasses and not entity class
         enemyX = enemy->GetPositionX();
         enemyY = enemy->GetPositionY();
     }
@@ -81,10 +86,9 @@ void Game::HandleCombat(float deltaTime)
 
 
     player.CombatUpdate(deltaTime);
+    // Might change this to be handled by the player class
     player.SetPositionX(150);
     player.SetPositionY(250);
-
-
 
     if (attackKeyPressed && isPlayerTurn)
     {

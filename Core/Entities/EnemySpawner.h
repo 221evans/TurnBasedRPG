@@ -17,7 +17,7 @@ enum class EntityType
 class EnemySpawner {
 
 public:
-    Entity* SpawnEnemy(EntityType type);
+    std::unique_ptr<Entity> SpawnEnemy(EntityType type);
     EnemySpawner();
     Boar boar;
     ZombieBase zombieBase;

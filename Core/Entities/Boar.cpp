@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-Boar::Boar(): Entity(BaseOrientation::Left),health(100), damage(10), speed(100.0f),frameTimer(0.0f),
+Boar::Boar(): Entity(BaseOrientation::Left),health(150),speed(100.0f),frameTimer(0.0f),
               currentFrame(0),boarAttackTexture(nullptr)
 {
     positionX = 350;
@@ -78,6 +78,9 @@ void Boar::CombatUpdate(float deltaTime)
     isWalking = false;
     isInCombat = true;
     Animate(deltaTime);
+    SetPositionX(350);
+    SetPositionY(250);
+
 }
 
 float Boar::SetPositionX(const float x)

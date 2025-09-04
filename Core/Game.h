@@ -17,7 +17,7 @@ public:
     Player player;
     Boar boar;
     ZombieBase zombieBase;
-    std::vector<Entity*> enemies;
+    std::vector<std::unique_ptr<Entity>> enemies;
     EnemySpawner enemySpawner;
     GameState gameState;
     void Init(SDL_Renderer* renderer);

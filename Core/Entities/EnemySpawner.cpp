@@ -6,21 +6,17 @@
 
 EnemySpawner::EnemySpawner() = default;
 
-Entity* EnemySpawner::SpawnEnemy(EntityType type)
+std::unique_ptr<Entity> EnemySpawner::SpawnEnemy(EntityType type)
 {
-    if (type == EntityType::Boar)
-    {
-        Boar* newBoar = new Boar();
-        newBoar->SetPositionX(450);
-        newBoar->SetPositionY(250);
-        return newBoar;
-    }
-    else if (type == EntityType::ZombieBase)
-    {
-        ZombieBase* newZombieBase = new ZombieBase();
-        return newZombieBase;
-    }
-    return nullptr;
+   switch (type)
+   {
+      case EntityType::Boar:
+           return std::make_unique<Boar>();
+       case EntityType::ZombieBase:
+           return std::make_unique<ZombieBase>();
+       default:
+           return nullptr;
+   }
 }
 
 
