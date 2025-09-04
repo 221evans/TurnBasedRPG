@@ -7,13 +7,14 @@
 #include <iostream>
 #include <__ostream/basic_ostream.h>
 
-ZombieBase::ZombieBase(): Entity(BaseOrientation::Right),speed(100.0f), frameTimer(0.0f), currentFrame(0), health(100)
+ZombieBase::ZombieBase(): Entity(BaseOrientation::Right),speed(100.0f), frameTimer(0.0f), currentFrame(0)
 {
     positionX = 550;
     positionY = 250;
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
     currentTexture = nullptr;
+    health = 50;
     // Orientation needs to be set depending on if the sprite is drawn facing left or right facing
     orientation = BaseOrientation::Right;
 }

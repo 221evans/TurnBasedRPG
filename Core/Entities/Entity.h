@@ -26,7 +26,9 @@ public:
     float GetPositionY();
     virtual float SetPositionX(float x);
     virtual float SetPositionY(float y);
-    virtual int TakeDamage(int damage, int health);
+    virtual int TakeDamage(int damage);
+    virtual int GetHealth() const;
+    int health;
 
     SDL_Texture* currentTexture;
     bool isInCombat;

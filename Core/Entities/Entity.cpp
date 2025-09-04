@@ -11,7 +11,7 @@
 Entity::Entity(BaseOrientation orientation): currentTexture(nullptr), isInCombat(false), positionX(0),
                                              positionY(0), speed(100.0f), isWalking(false),
                                              isFacingLeft(true), orientation(BaseOrientation::Left), walkTexture(nullptr),
-                                             idleTexture(nullptr), flip(SDL_FLIP_NONE)
+                                             idleTexture(nullptr), flip(SDL_FLIP_NONE), health(0)
 {
     destRect = {positionX, positionY, 64, 64};
     srcRect = {0, 0, 64, 64};
@@ -107,12 +107,13 @@ float Entity::SetPositionY(float y)
     return positionY;
 }
 
-
-// Work in progress
-int Entity::TakeDamage(int damage, int health)
+int Entity::TakeDamage(int damage)
 {
     health -= damage;
     return health;
 }
 
-
+int Entity::GetHealth() const
+{
+    return health;
+}

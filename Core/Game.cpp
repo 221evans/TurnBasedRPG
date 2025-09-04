@@ -81,6 +81,7 @@ void Game::HandleCombat(float deltaTime)
         // Boar tracking. Will be removed eventually as setting positions is handled by the subclasses and not entity class
         enemyX = enemy->GetPositionX();
         enemyY = enemy->GetPositionY();
+
     }
 
 
@@ -96,6 +97,13 @@ void Game::HandleCombat(float deltaTime)
         isPlayerTurn = false;
         isEnemyTurn = true;
         attackKeyPressed = false;
+
+        for (auto &enemy : enemies)
+        {
+            enemy->TakeDamage(playerDamage);
+           std::cout << "Enemy Health" << enemy->GetHealth() << std::endl;
+        }
+
     }
 
     if (isEnemyTurn)

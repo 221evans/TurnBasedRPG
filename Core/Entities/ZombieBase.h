@@ -15,7 +15,6 @@ public:
     float speed;
     float frameTimer;
     int currentFrame;
-    int health;
     std::map<SDL_Texture*, AnimationData> animationInfo;
     ZombieBase();
     void Init(SDL_Renderer* renderer) override;

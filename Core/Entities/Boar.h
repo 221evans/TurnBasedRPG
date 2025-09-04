@@ -9,10 +9,10 @@
 #include "../AnimationData.h"
 #include "../Entities/Entity.h"
 
-class Boar : public Entity {
+class Boar final : public Entity {
 public:
     Boar();
-    int health;
+
     int damage;
     float speed;
     float frameTimer;
@@ -28,7 +28,6 @@ public:
     void FreeRoamUpdate(float deltaTime) override;
     void CombatUpdate(float deltaTime) override;
     void Animate(float deltaTime) override;
-
     float SetPositionX(float x);
     float SetPositionY(float y);
     [[nodiscard]] bool GetIsWalking() const;

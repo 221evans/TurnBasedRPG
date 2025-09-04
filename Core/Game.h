@@ -30,6 +30,7 @@ public:
     bool isEnemyTurn;
     float enemyX;
     float enemyY;
+    int playerDamage = 10;
 
 
 private:

@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-Boar::Boar(): Entity(BaseOrientation::Left),health(150),speed(100.0f),frameTimer(0.0f),
+Boar::Boar(): Entity(BaseOrientation::Left),speed(100.0f),frameTimer(0.0f),
               currentFrame(0),boarAttackTexture(nullptr)
 {
     positionX = 350;
@@ -16,6 +16,8 @@ Boar::Boar(): Entity(BaseOrientation::Left),health(150),speed(100.0f),frameTimer
     currentTexture = nullptr;
     // Orientation needs to be set depending on if the sprite is drawn left or right facing
     orientation = BaseOrientation::Left;
+    health = 100;
+
 }
 
 void Boar::Init(SDL_Renderer* renderer)
@@ -65,6 +67,7 @@ void Boar::Animate(float deltaTime)
     srcRect.w = static_cast<float> (animData.frameWidth);
 
 }
+
 void Boar::FreeRoamUpdate(float deltaTime)
 {
     Move(deltaTime);
