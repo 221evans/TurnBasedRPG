@@ -10,7 +10,7 @@
 
 
 Game::Game(): gameState(GameState::FreeRoam), isPlayerTurn(true), isEnemyTurn(false),
-attackKeyPressed(false), enemyX(0), enemyY(0){}
+attackKeyPressed(false){}
 
 void Game::Init(SDL_Renderer* renderer)
 {
@@ -57,7 +57,7 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
                         break;
                     }
                 }
-
+                // Try to cast to Zombie pointer - returns nullptr if not a Zombie
                 else if (const ZombieBase* zombieBase = dynamic_cast<const ZombieBase*>(enemy.get()))
                 {
                     if (CheckPlayerZombieCollision(*zombieBase))
@@ -86,20 +86,13 @@ void Game::Render(SDL_Renderer* renderer)
 
 void Game::HandleCombat(float deltaTime, SDL_Renderer* renderer)
 {
-
     if (combatEnemy) {
         combatEnemy->isInCombat = true;
         combatEnemy->CombatUpdate(deltaTime);
+        combatEnemy->SetPositionX(350);
+        combatEnemy->SetPositionY(250);
     }
 
-    for (auto& enemy : enemies)
-    {
-
-        // Boar tracking. Will be removed eventually as setting positions is handled by the subclasses and not entity class
-        enemyX = enemy->GetPositionX();
-        enemyY = enemy->GetPositionY();
-
-    }
 
     auto deadEnemyCheck = [this](const std::unique_ptr<Entity>& e) {
         if (e->GetHealth() <= 0) {
@@ -113,8 +106,6 @@ void Game::HandleCombat(float deltaTime, SDL_Renderer* renderer)
 
     std::erase_if(enemies, deadEnemyCheck);
 
-    // check if combat should end
-
     if (enemies.empty())
     {
         gameState = GameState::FreeRoam;
@@ -123,6 +114,8 @@ void Game::HandleCombat(float deltaTime, SDL_Renderer* renderer)
         ResetEnemies(renderer);  // Respawn when ALL enemies are dead
         return;
     }
+
+    // check if combat should end
 
     if (!combatEnemy)
     {
@@ -150,9 +143,7 @@ void Game::HandleCombat(float deltaTime, SDL_Renderer* renderer)
 
         for (auto &enemy : enemies)
         {
-
             combatEnemy->TakeDamage(playerDamage);
-
             std::cout << "Enemy Health" << enemy->GetHealth() << std::endl;
         }
 
@@ -188,8 +179,6 @@ void Game::Debugging()
 
 
     bool isBoarWalking = boar.GetIsWalking();
-    ImGui::Text("Boar X: %f", enemyX );
-    ImGui::Text("Boar Y: %f", enemyY);
     ImGui::Text("Boar Is Walking: %s", isBoarWalking ? "true" : "false");
     ImGui::Text("Boar Current Texture: %s", boar.GetCurrentTexture().c_str());
     ImGui::SeparatorText("Controls");

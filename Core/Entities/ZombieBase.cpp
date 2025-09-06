@@ -58,8 +58,6 @@ void ZombieBase::CombatUpdate(float deltaTime)
     currentFrame = 0;
     isWalking = false;
     isInCombat = true;
-    SetPositionX(350);
-    SetPositionY(400);
     Animate(deltaTime);
 }
 

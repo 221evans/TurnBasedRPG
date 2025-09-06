@@ -81,9 +81,6 @@ void Boar::CombatUpdate(float deltaTime)
     isWalking = false;
     isInCombat = true;
     Animate(deltaTime);
-    SetPositionX(350);
-    SetPositionY(250);
-
 }
 
 float Boar::SetPositionX(const float x)

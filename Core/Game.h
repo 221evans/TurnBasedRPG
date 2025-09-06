@@ -31,8 +31,6 @@ public:
     void StartCombatWith(Entity* enemy);
     bool isPlayerTurn;
     bool isEnemyTurn;
-    float enemyX;
-    float enemyY;
     int playerDamage = 10;
 
 
