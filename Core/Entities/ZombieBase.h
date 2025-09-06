@@ -26,6 +26,4 @@ public:
 
 };
 
-
-
 #endif //ZOMBIEBASE_H

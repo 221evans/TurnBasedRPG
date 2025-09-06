@@ -99,6 +99,8 @@ float Boar::SetPositionY(const float y)
     return positionY;
 }
 
+
+
 bool Boar::GetIsWalking() const
 {
     return isWalking;

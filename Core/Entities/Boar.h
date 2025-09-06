@@ -28,8 +28,9 @@ public:
     void FreeRoamUpdate(float deltaTime) override;
     void CombatUpdate(float deltaTime) override;
     void Animate(float deltaTime) override;
-    float SetPositionX(float x);
-    float SetPositionY(float y);
+    float SetPositionX(float x) override;
+    float SetPositionY(float y) override;
+
     [[nodiscard]] bool GetIsWalking() const;
     [[nodiscard]] std::string GetCurrentTexture() const;
 

@@ -46,21 +46,34 @@ void Game::Update(SDL_Renderer* renderer, float deltaTime)
     else if (gameState == GameState::FreeRoam)
     {
         player.FreeRoamUpdate(deltaTime);
-        for (auto& enemy : enemies)
-        {
-            enemy->FreeRoamUpdate(deltaTime);
-            enemy->isInCombat = false;
-            enemyX = enemy->GetPositionX();
-            enemyY = enemy->GetPositionY();
+        for (auto& enemy : enemies) {
+            if (!enemy->isInCombat) {
+                enemy->FreeRoamUpdate(deltaTime);
+
+                // Try to cast to Boar pointer - returns nullptr if not a Boar
+                if (const Boar* boar = dynamic_cast<const Boar*>(enemy.get())) {
+                    if (CheckPlayerBoarCollision(*boar)) {
+                        StartCombatWith(enemy.get());
+                        break;
+                    }
+                }
+
+                else if (const ZombieBase* zombieBase = dynamic_cast<const ZombieBase*>(enemy.get()))
+                {
+                    if (CheckPlayerZombieCollision(*zombieBase))
+                    {
+                        StartCombatWith(enemy.get());
+                        break;
+                    }
+                }
+            }
         }
-
     }
-    else if (gameState == GameState::Combat)
-    {
-        HandleCombat(deltaTime);
+    else if (gameState == GameState::Combat) {
+        HandleCombat(deltaTime, renderer);
     }
-
 }
+
 
 void Game::Render(SDL_Renderer* renderer)
 {
@@ -71,18 +84,55 @@ void Game::Render(SDL_Renderer* renderer)
     }
 }
 
-void Game::HandleCombat(float deltaTime)
+void Game::HandleCombat(float deltaTime, SDL_Renderer* renderer)
 {
+
+    if (combatEnemy) {
+        combatEnemy->isInCombat = true;
+        combatEnemy->CombatUpdate(deltaTime);
+    }
 
     for (auto& enemy : enemies)
     {
-        enemy->isInCombat = true;
-        enemy->CombatUpdate(deltaTime);
+
         // Boar tracking. Will be removed eventually as setting positions is handled by the subclasses and not entity class
         enemyX = enemy->GetPositionX();
         enemyY = enemy->GetPositionY();
 
     }
+
+    auto deadEnemyCheck = [this](const std::unique_ptr<Entity>& e) {
+        if (e->GetHealth() <= 0) {
+            if (e.get() == combatEnemy) {
+                combatEnemy = nullptr;
+            }
+            return true;
+        }
+        return false;
+    };
+
+    std::erase_if(enemies, deadEnemyCheck);
+
+    // check if combat should end
+
+    if (enemies.empty())
+    {
+        gameState = GameState::FreeRoam;
+        isEnemyTurn = false;
+        isPlayerTurn = true;
+        ResetEnemies(renderer);  // Respawn when ALL enemies are dead
+        return;
+    }
+
+    if (!combatEnemy)
+    {
+        // Combat enemy died, but there might be other enemies still alive
+        gameState = GameState::FreeRoam;
+        isEnemyTurn = false;
+        isPlayerTurn = true;
+        return;  // Don't respawn, just exit combat
+    }
+
 
 
 
@@ -100,8 +150,10 @@ void Game::HandleCombat(float deltaTime)
 
         for (auto &enemy : enemies)
         {
-            enemy->TakeDamage(playerDamage);
-           std::cout << "Enemy Health" << enemy->GetHealth() << std::endl;
+
+            combatEnemy->TakeDamage(playerDamage);
+
+            std::cout << "Enemy Health" << enemy->GetHealth() << std::endl;
         }
 
     }
@@ -158,5 +210,60 @@ void Game::Debugging()
     {
         gameState = GameState::Menu;
     }
+}
+
+bool Game::CheckPlayerBoarCollision(const Boar& boar)
+{
+    SDL_FRect playerRect = {player.GetPositionX(), player.GetPositionY(), 64, 64};
+    SDL_FRect boarRect = {boar.GetPositionX(), boar.GetPositionY(), 64, 64};
+
+
+    return SDL_HasRectIntersectionFloat(&playerRect, &boarRect);
+
+}
+
+bool Game::CheckPlayerZombieCollision(const ZombieBase& zombieBase)
+{
+    SDL_FRect playerRect = {player.GetPositionX(), player.GetPositionY(), 64, 64};
+    SDL_FRect zombieRect = {zombieBase.GetPositionX(), zombieBase.GetPositionY(), 64, 64};
+
+    return SDL_HasRectIntersectionFloat(&playerRect, &zombieRect);
+}
+
+void Game::StartCombatWith(Entity* enemy)
+{
+    gameState = GameState::Combat;
+    combatEnemy = enemy;  // Store reference to the specific enemy
+
+    // Set combat state for this specific enemy
+    for (auto& e : enemies) {
+        e->isInCombat = (e.get() == enemy);  // Only the collided enemy enters combat
+    }
+
+    // Reset turn state
+    isPlayerTurn = true;
+    isEnemyTurn = false;
+}
+
+void Game::ResetEnemies(SDL_Renderer* renderer)
+{
+    enemies.clear();
+
+    if (auto boarEnemy = enemySpawner.SpawnEnemy(EntityType::Boar))
+    {
+        boarEnemy->Init(renderer);
+        boarEnemy->SetPositionX(400.0f);
+        boarEnemy->SetPositionY(220.0f);
+        enemies.push_back(std::move(boarEnemy));
+    }
+
+    if (auto zombieEnemy = enemySpawner.SpawnEnemy(EntityType::ZombieBase))
+    {
+        zombieEnemy->Init(renderer);
+        zombieEnemy->SetPositionX(500.0f);
+        zombieEnemy->SetPositionY(300.0f);
+        enemies.push_back(std::move(zombieEnemy));
+    }
+
 }
 

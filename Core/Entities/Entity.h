@@ -22,8 +22,8 @@ public:
     virtual void CombatUpdate(float deltaTime) = 0;
     virtual void Animate(float deltaTime) = 0;
     virtual void Move(float deltaTime);
-    float GetPositionX();
-    float GetPositionY();
+    float GetPositionX() const;
+    float GetPositionY() const;
     virtual float SetPositionX(float x);
     virtual float SetPositionY(float y);
     virtual int TakeDamage(int damage);

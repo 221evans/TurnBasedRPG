@@ -23,9 +23,12 @@ public:
     void Init(SDL_Renderer* renderer);
     void Update(SDL_Renderer* renderer, float deltaTime);
     void Render(SDL_Renderer* renderer);
-    void HandleCombat(float deltaTime);
+    void HandleCombat(float deltaTime, SDL_Renderer* renderer);
     void Debugging();
     void SetAttackKeyPressed() {attackKeyPressed = true;}
+    bool CheckPlayerBoarCollision(const Boar& boar);
+    bool CheckPlayerZombieCollision(const ZombieBase& zombieBase);
+    void StartCombatWith(Entity* enemy);
     bool isPlayerTurn;
     bool isEnemyTurn;
     float enemyX;
@@ -35,6 +38,8 @@ public:
 
 private:
     bool attackKeyPressed;
+    Entity* combatEnemy = nullptr;
+    void ResetEnemies(SDL_Renderer* renderer);
 };
 
 

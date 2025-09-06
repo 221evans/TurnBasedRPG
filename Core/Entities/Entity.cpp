@@ -84,16 +84,14 @@ void Entity::Move(float deltaTime)
 
 }
 
-float Entity::GetPositionX()
+float Entity::GetPositionX() const
 {
-    positionX = destRect.x;
-    return positionX;
+   return destRect.x;
 }
 
-float Entity::GetPositionY()
+float Entity::GetPositionY() const
 {
-    positionY = destRect.y;
-    return positionY;
+  return destRect.y;
 }
 
 float Entity::SetPositionX(float x)

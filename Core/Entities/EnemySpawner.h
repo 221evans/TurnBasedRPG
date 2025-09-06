@@ -21,10 +21,6 @@ public:
     EnemySpawner();
     Boar boar;
     ZombieBase zombieBase;
-
-
-
-
 };
 
 

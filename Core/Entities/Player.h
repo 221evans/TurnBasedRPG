@@ -34,8 +34,8 @@ public:
     bool PreLoadAssets(SDL_Renderer* renderer) override;
     SDL_Texture* playerCurrentTexture;
 
-    float SetPositionX(float x);
-    float SetPositionY(float y);
+    float SetPositionX(float x) override;
+    float SetPositionY(float y) override;
     bool GetIsRunningSide();
     bool GetIsRunningUp();
     std::string GetCurrentTexture();
